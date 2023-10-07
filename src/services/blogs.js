@@ -1,9 +1,21 @@
-import axios from 'axios'
-const baseUrl = '/api/blogs'
+import axios from "axios";
+const baseUrl = "http://localhost:3003/api/blogs";
 
-const getAll = () => {
-  const request = axios.get(baseUrl)
-  return request.then(response => response.data)
-}
+let token = "";
 
-export default { getAll }
+const setToken = (desToken) => {
+  token = `Bearer ${desToken}`;
+};
+
+const getAll = async () => {
+  const config = {
+    headers: { Authorization: token },
+  };
+  const request = await axios
+    .get(baseUrl, config)
+    .then((response) => response.data);
+  console.log("request", request);
+  return request;
+};
+
+export default { getAll, setToken };
