@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useImperativeHandle, forwardRef } from "react";
 import blogService from "../services/blogs";
-const Blog = ({ blog }) => {
+
+const Blog = ({ blog, blogs, setBlogs }) => {
   const [visible, setVisible] = useState(false);
   const [user, setuser] = useState("");
   const [Blikes, setBlikes] = useState(blog.likes);
@@ -27,11 +28,14 @@ const Blog = ({ blog }) => {
     await blogService.incLikes(blogToUpdate, blog.id);
     const addi = Blikes + 1;
     setBlikes(addi);
+    blogs.sort((a, b) => (a.likes > b.likes ? -1 : 1));
   };
 
   const handleDelete = async () => {
     if (window.confirm(`Remove ${blog.title} by ${blog.author}`)) {
       await blogService.deleteBlog(blog.id);
+      const ID = blog.id;
+      setBlogs(blogs.filter((blog) => blog.id != ID));
     }
   };
 

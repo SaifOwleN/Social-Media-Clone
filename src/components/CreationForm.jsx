@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import PropTypes from "prop-types";
 const creationForm = ({ CreateBlog }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
