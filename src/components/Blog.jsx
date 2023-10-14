@@ -25,10 +25,14 @@ const Blog = ({ blog, blogs, setBlogs }) => {
 
   const addLike = async () => {
     const blogToUpdate = { ...blog, likes: Blikes + 1 };
-    await blogService.incLikes(blogToUpdate, blog.id);
-    const addi = Blikes + 1;
-    setBlikes(addi);
-    blogs.sort((a, b) => (a.likes > b.likes ? -1 : 1));
+    try {
+      await blogService.incLikes(blogToUpdate, blog.id);
+      const addi = Blikes + 1;
+      setBlikes(addi);
+      blogs.sort((a, b) => (a.likes > b.likes ? -1 : 1));
+    } catch (error) {
+      console.log("error");
+    }
   };
 
   const handleDelete = async () => {
@@ -44,11 +48,14 @@ const Blog = ({ blog, blogs, setBlogs }) => {
   };
   return (
     <div style={blogStyle}>
-      <div>
+      <div className='TitleAndAuthor'>
         {blog.title} {blog.author}{" "}
         <button onClick={toggleVisibilty}>show</button>
       </div>
-      <div style={{ display: visible == false ? "none" : "" }}>
+      <div
+        style={{ display: visible == false ? "none" : "" }}
+        className='urlAndLikes'
+      >
         <a href={blog.url}>{blog.url}</a> <br /> likes: {Blikes}{" "}
         <button onClick={addLike}>like</button> <br /> {user} <br />
         <button onClick={handleDelete}>delete</button>

@@ -103,7 +103,7 @@ const App = () => {
           <button onClick={handleLogout}>logout</button>
           <br />
           <Toggleable buttonLabel='add blog'>
-            <CreationForm CreateBlog={handleCreation} />
+            <CreationForm createBlog={handleCreation} />
           </Toggleable>
           <br />
           {blogs.map((blog) => (

@@ -1,13 +1,13 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-const creationForm = ({ CreateBlog }) => {
+const CreationForm = ({ createBlog }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
 
   const handleCreation = (e) => {
     e.preventDefault();
-    CreateBlog({
+    createBlog({
       title,
       author,
       url,
@@ -21,18 +21,28 @@ const creationForm = ({ CreateBlog }) => {
     <form onSubmit={handleCreation}>
       <h3>Create blog</h3>
       title:{" "}
-      <input value={title} onChange={({ target }) => setTitle(target.value)} />
+      <input
+        className='title'
+        value={title}
+        onChange={({ target }) => setTitle(target.value)}
+      />
       <br />
       author:{" "}
       <input
+        className='author'
         value={author}
         onChange={({ target }) => setAuthor(target.value)}
       />
       <br />
-      url: <input value={url} onChange={({ target }) => setUrl(target.value)} />
+      url:{" "}
+      <input
+        className='url'
+        value={url}
+        onChange={({ target }) => setUrl(target.value)}
+      />
       <br />
       <button type='submit'>Create</button>
     </form>
   );
 };
-export default creationForm;
+export default CreationForm;
