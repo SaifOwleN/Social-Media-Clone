@@ -12,7 +12,9 @@ const Blog = ({ blog, blogs, setBlogs }) => {
     borderWidth: 1,
     marginBottom: 5,
   };
-
+  const loggedUser = localStorage.getItem("loggedUser");
+  const User = JSON.parse(loggedUser);
+  const username = User.name;
   useEffect(() => {
     const xddMOTS = async () => {
       if (blog.user) {
@@ -47,7 +49,7 @@ const Blog = ({ blog, blogs, setBlogs }) => {
     setVisible(!visible);
   };
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} className='blog'>
       <div className='TitleAndAuthor'>
         {blog.title} {blog.author}{" "}
         <button onClick={toggleVisibilty}>show</button>
@@ -57,8 +59,14 @@ const Blog = ({ blog, blogs, setBlogs }) => {
         className='urlAndLikes'
       >
         <a href={blog.url}>{blog.url}</a> <br /> likes: {Blikes}{" "}
-        <button onClick={addLike}>like</button> <br /> {user} <br />
-        <button onClick={handleDelete}>delete</button>
+        <button onClick={addLike}>like</button> <br /> {user}
+        <div>
+          {user == username ? (
+            <button onClick={handleDelete}>delete</button>
+          ) : (
+            <></>
+          )}
+        </div>
       </div>
     </div>
   );
