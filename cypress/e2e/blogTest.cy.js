@@ -72,7 +72,9 @@ describe("template spec", () => {
       describe("while there is blogs", () => {
         beforeEach(() => {
           cy.get(".blog").eq(1).contains("show").click();
+
           cy.get(".blog").eq(1).contains("like").click();
+
           cy.visit("");
         });
 
