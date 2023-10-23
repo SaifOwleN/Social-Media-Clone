@@ -40,6 +40,15 @@ const getUsers = (id) => {
   return res
 }
 
+const User = (id) => {
+  const res = axios.get(`${userUrl}/${id}`).then((res) => res.data)
+  return res
+}
+
+const getAllUsers = async () => {
+  return await axios.get(userUrl).then((res) => res.data)
+}
+
 const deleteBlog = async (id) => {
   const config = {
     headers: { Authorization: token },
@@ -47,4 +56,13 @@ const deleteBlog = async (id) => {
   await axios.delete(`${baseUrl}/${id}`, config)
 }
 
-export default { getAll, setToken, create, getUsers, incLikes, deleteBlog }
+export default {
+  getAll,
+  setToken,
+  create,
+  getUsers,
+  incLikes,
+  deleteBlog,
+  getAllUsers,
+  User,
+}

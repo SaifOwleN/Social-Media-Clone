@@ -1,109 +1,125 @@
-import { useState, useEffect } from "react";
-import Blog from "./components/Blog";
-import blogService from "./services/blogs";
-import loginService from "./services/login";
-import Toggleable from "./components/Toggelable";
-import CreationForm from "./components/CreationForm";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useState, useEffect } from 'react'
+import Blog from './components/Blog'
+import blogService from './services/blogs'
+import loginService from './services/login'
+import Toggleable from './components/Toggelable'
+import CreationForm from './components/CreationForm'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import NavBar from './components/NavBar'
+import UserPage from './components/UserPage'
+import User from './components/User'
 
 const App = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [user, setUser] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [user, setUser] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
   useEffect(() => {
-    const loggedUser = window.localStorage.getItem("loggedUser");
+    const loggedUser = window.localStorage.getItem('loggedUser')
     if (loggedUser) {
-      const user = JSON.parse(loggedUser);
-      setUser(user);
-      blogService.setToken(user.Token);
+      const user = JSON.parse(loggedUser)
+      setUser(user)
+      blogService.setToken(user.Token)
     }
-  }, []);
+  }, [])
 
   const blogQ = useQuery({
-    queryKey: ["blogs"],
+    queryKey: ['blogs'],
     queryFn: blogService.getAll,
-  });
+  })
 
   if (blogQ.isLoading) {
-    return <div>Loading...</div>;
+    return <div>Loading...</div>
   }
-  const blogs = blogQ.data;
+  const blogs = blogQ.data
 
   const handleLogin = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
-      const user = await loginService.login({ username, password });
-      setUser(user);
-      setUsername("");
-      setPassword("");
-      window.localStorage.setItem("loggedUser", JSON.stringify(user));
-      blogService.setToken(user.Token);
+      const user = await loginService.login({ username, password })
+      setUser(user)
+      setUsername('')
+      setPassword('')
+      window.localStorage.setItem('loggedUser', JSON.stringify(user))
+      blogService.setToken(user.Token)
     } catch (err) {
-      setErrorMessage("Wrong username or password");
+      setErrorMessage('Wrong username or password')
       setTimeout(() => {
-        setErrorMessage(null);
-      }, 4000);
+        setErrorMessage(null)
+      }, 4000)
     }
-  };
+  }
 
   const handleLogout = (e) => {
-    e.preventDefault();
-    window.localStorage.clear();
-    setUser("");
-  };
+    e.preventDefault()
+    window.localStorage.clear()
+    setUser('')
+  }
 
   const handleCreation = async (blogToAdd) => {
-    setErrorMessage(`a new blog has been added: ${blogToAdd.author}`);
+    setErrorMessage(`a new blog has been added: ${blogToAdd.author}`)
     setTimeout(() => {
-      setErrorMessage(null);
-    }, 4000);
-  };
-  const byLikes = (b1, b2) => b2.likes - b1.likes;
+      setErrorMessage(null)
+    }, 4000)
+  }
+  const byLikes = (b1, b2) => b2.likes - b1.likes
 
   const loginForm = () => {
     return (
       <form onSubmit={handleLogin}>
-        username:{" "}
+        username:{' '}
         <input
           value={username}
           onChange={({ target }) => setUsername(target.value)}
-        />{" "}
+        />{' '}
         <br />
         password:
         <input
           value={password}
           onChange={({ target }) => setPassword(target.value)}
-        />{" "}
+        />{' '}
         <br />
-        <button type='submit'>login</button>
+        <button type="submit">login</button>
       </form>
-    );
-  };
+    )
+  }
+  const HomePage = () => {
+    return (
+      <>
+        <Toggleable buttonLabel="add blog">
+          <CreationForm />
+        </Toggleable>
+        {blogs?.sort(byLikes).map((blog) => (
+          <Blog key={blog.id} blog={blog} blogs={blogs} />
+        ))}
+      </>
+    )
+  }
 
   return (
-    <div>
-      <h2>blogs</h2>
-      {errorMessage}
+    <Router>
+      <div>
+        <NavBar />
+        <h2>blogs</h2>
+        {errorMessage}
 
-      {user === "" ? (
-        loginForm()
-      ) : (
-        <div>
-          {user.name} is logged in
-          <button onClick={handleLogout}>logout</button>
-          <br />
-          <Toggleable buttonLabel='add blog'>
-            <CreationForm />
-          </Toggleable>
-          <br />
-          {blogs.sort(byLikes).map((blog) => (
-            <Blog key={blog.id} blog={blog} blogs={blogs} />
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
+        {user === '' ? (
+          loginForm()
+        ) : (
+          <div>
+            {user.name} is logged in
+            <button onClick={handleLogout}>logout</button>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/users" element={<UserPage />} />
+              <Route path="/users/:id" element={<User />} />
+            </Routes>
+          </div>
+        )}
+      </div>
+    </Router>
+  )
+}
 
-export default App;
+export default App
