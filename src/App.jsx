@@ -1,16 +1,15 @@
-import { useState, useEffect, useImperativeHandle, forwardRef } from "react";
+import { useState, useEffect } from "react";
 import Blog from "./components/Blog";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 import Toggleable from "./components/Toggelable";
 import CreationForm from "./components/CreationForm";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState("");
-
   const [errorMessage, setErrorMessage] = useState("");
   useEffect(() => {
     const loggedUser = window.localStorage.getItem("loggedUser");
@@ -21,15 +20,15 @@ const App = () => {
     }
   }, []);
 
-  useEffect(() => {
-    const Get = async () => {
-      if (user != "") {
-        const blogs = await blogService.getAll();
-        setBlogs(blogs);
-      }
-    };
-    Get();
-  }, [user]);
+  const blogQ = useQuery({
+    queryKey: ["blogs"],
+    queryFn: blogService.getAll,
+  });
+
+  if (blogQ.isLoading) {
+    return <div>Loading...</div>;
+  }
+  const blogs = blogQ.data;
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -55,19 +54,10 @@ const App = () => {
   };
 
   const handleCreation = async (blogToAdd) => {
-    try {
-      const blog = await blogService.create(blogToAdd);
-      setBlogs(blogs.concat(blog));
-      setErrorMessage(`a new blog has been added: ${blog.author}`);
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 4000);
-    } catch (err) {
-      setErrorMessage(`an error has occured`);
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 4000);
-    }
+    setErrorMessage(`a new blog has been added: ${blogToAdd.author}`);
+    setTimeout(() => {
+      setErrorMessage(null);
+    }, 4000);
   };
   const byLikes = (b1, b2) => b2.likes - b1.likes;
 
@@ -104,11 +94,11 @@ const App = () => {
           <button onClick={handleLogout}>logout</button>
           <br />
           <Toggleable buttonLabel='add blog'>
-            <CreationForm createBlog={handleCreation} />
+            <CreationForm />
           </Toggleable>
           <br />
           {blogs.sort(byLikes).map((blog) => (
-            <Blog key={blog.id} blog={blog} blogs={blogs} setBlogs={setBlogs} />
+            <Blog key={blog.id} blog={blog} blogs={blogs} />
           ))}
         </div>
       )}
