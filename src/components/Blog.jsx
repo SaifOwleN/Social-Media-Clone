@@ -36,45 +36,10 @@ const Blog = ({ blog, blogs, setBlogs }) => {
     xddMOTS()
   }, [])
 
-  const addLike = async () => {
-    const blogToUpdate = { ...blog, likes: Blikes + 1 }
-    try {
-      likeBlogMutation.mutate(blogToUpdate)
-      setBlikes(Blikes + 1)
-      blogs.sort((a, b) => (a.likes > b.likes ? -1 : 1))
-    } catch (error) {
-      console.log('error')
-    }
-  }
-
-  const handleDelete = async () => {
-    if (window.confirm(`Remove ${blog.title} by ${blog.author}`)) {
-      deleteBlogMutation.mutate(blog.id)
-    }
-  }
-
-  const toggleVisibilty = () => {
-    setVisible(!visible)
-  }
   return (
     <div style={blogStyle} className="blog">
       <div className="TitleAndAuthor">
         {blog.title} {blog.author}{' '}
-        <button onClick={toggleVisibilty}>show</button>
-      </div>
-      <div
-        style={{ display: visible == false ? 'none' : '' }}
-        className="urlAndLikes"
-      >
-        <a href={blog.url}>{blog.url}</a> <br /> likes: {Blikes}{' '}
-        <button onClick={addLike}>like</button> <br /> {user}
-        <div>
-          {user == username ? (
-            <button onClick={handleDelete}>delete</button>
-          ) : (
-            <></>
-          )}
-        </div>
       </div>
     </div>
   )

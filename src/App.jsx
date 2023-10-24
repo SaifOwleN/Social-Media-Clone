@@ -5,10 +5,11 @@ import loginService from './services/login'
 import Toggleable from './components/Toggelable'
 import CreationForm from './components/CreationForm'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import NavBar from './components/NavBar'
 import UserPage from './components/UserPage'
 import User from './components/User'
+import BlogPage from './components/BlogPage'
 
 const App = () => {
   const [username, setUsername] = useState('')
@@ -91,7 +92,9 @@ const App = () => {
           <CreationForm />
         </Toggleable>
         {blogs?.sort(byLikes).map((blog) => (
-          <Blog key={blog.id} blog={blog} blogs={blogs} />
+          <Link to={`/blogs/${blog.id}`}>
+            <Blog key={blog.id} blog={blog} blogs={blogs} />
+          </Link>
         ))}
       </>
     )
@@ -100,7 +103,7 @@ const App = () => {
   return (
     <Router>
       <div>
-        <NavBar />
+        <NavBar user={user} handleLogout={handleLogout} />
         <h2>blogs</h2>
         {errorMessage}
 
@@ -108,12 +111,11 @@ const App = () => {
           loginForm()
         ) : (
           <div>
-            {user.name} is logged in
-            <button onClick={handleLogout}>logout</button>
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/users" element={<UserPage />} />
               <Route path="/users/:id" element={<User />} />
+              <Route path="/blogs/:id" element={<BlogPage user={user} />} />
             </Routes>
           </div>
         )}
