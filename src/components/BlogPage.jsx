@@ -1,13 +1,15 @@
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
 import { useParams, useNavigate } from 'react-router-dom'
 import blogService from '../services/blogs'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 const BlogPage = ({ user }) => {
   const id = useParams().id
   const query = useQuery({ queryKey: ['blogs'] })
   const blog = query.data.find((n) => n.id == id)
   const [Blikes, setBlikes] = useState(blog.likes)
   const [comment, setComment] = useState()
+  const [userBlog, setUserBlog] = useState('')
+
   const navigate = useNavigate()
   const queryClient = useQueryClient()
 
@@ -23,6 +25,18 @@ const BlogPage = ({ user }) => {
     mutationFn: blogService.addComment,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['blogs'] }),
   })
+
+  useEffect(() => {
+    const user1 = async () => {
+      if (blog.user) {
+        const userxdd = await blogService
+          .User(blog.user)
+          .then((res) => res.name)
+        setUserBlog(userxdd)
+      }
+    }
+    user1()
+  }, [])
 
   const addLike = async () => {
     const blogToUpdate = { ...blog, likes: Blikes + 1 }
@@ -53,9 +67,18 @@ const BlogPage = ({ user }) => {
         <br />
         {Blikes} likes <button onClick={addLike}>Like</button>
         <br />
-        Added By {user.name}
-        <br />
-        <button onClick={deleteBlog}>delete</button>
+        {blog.user ? (
+          <>
+            Added By {userBlog} <br />
+          </>
+        ) : (
+          ''
+        )}
+        {userBlog == user.name ? (
+          <button onClick={deleteBlog}>delete</button>
+        ) : (
+          ''
+        )}
         <h3>Comments</h3>
         <ul>
           {blog.comments.map((com) => (

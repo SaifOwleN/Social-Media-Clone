@@ -10,6 +10,7 @@ import NavBar from './components/NavBar'
 import UserPage from './components/UserPage'
 import User from './components/User'
 import BlogPage from './components/BlogPage'
+import LoginForm from './components/LoginForm'
 
 const App = () => {
   const [username, setUsername] = useState('')
@@ -30,85 +31,49 @@ const App = () => {
     queryFn: blogService.getAll,
   })
 
-  if (blogQ.isLoading) {
+  if (blogQ.isLoading && user) {
     return <div>Loading...</div>
   }
   const blogs = blogQ.data
 
-  const handleLogin = async (e) => {
-    e.preventDefault()
-    try {
-      const user = await loginService.login({ username, password })
-      setUser(user)
-      setUsername('')
-      setPassword('')
-      window.localStorage.setItem('loggedUser', JSON.stringify(user))
-      blogService.setToken(user.Token)
-    } catch (err) {
-      setErrorMessage('Wrong username or password')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 4000)
-    }
-  }
-
-  const handleLogout = (e) => {
-    e.preventDefault()
-    window.localStorage.clear()
-    setUser('')
-  }
-
-  const handleCreation = async (blogToAdd) => {
-    setErrorMessage(`a new blog has been added: ${blogToAdd.author}`)
-    setTimeout(() => {
-      setErrorMessage(null)
-    }, 4000)
-  }
   const byLikes = (b1, b2) => b2.likes - b1.likes
 
-  const loginForm = () => {
-    return (
-      <form onSubmit={handleLogin}>
-        username:{' '}
-        <input
-          value={username}
-          onChange={({ target }) => setUsername(target.value)}
-        />{' '}
-        <br />
-        password:
-        <input
-          value={password}
-          onChange={({ target }) => setPassword(target.value)}
-        />{' '}
-        <br />
-        <button type="submit">login</button>
-      </form>
-    )
-  }
   const HomePage = () => {
     return (
-      <>
+      <div>
         <Toggleable buttonLabel="add blog">
-          <CreationForm />
+          <CreationForm setErrorMessage={setErrorMessage} />
         </Toggleable>
         {blogs?.sort(byLikes).map((blog) => (
           <Link to={`/blogs/${blog.id}`}>
             <Blog key={blog.id} blog={blog} blogs={blogs} />
           </Link>
         ))}
-      </>
+      </div>
     )
   }
 
   return (
     <Router>
-      <div>
-        <NavBar user={user} handleLogout={handleLogout} />
-        <h2>blogs</h2>
+      <div className=" mx-7 my-4 ">
+        <NavBar user={user} setUser={setUser} />
         {errorMessage}
-
         {user === '' ? (
-          loginForm()
+          <Routes>
+            <Route
+              path="/login"
+              element={
+                <LoginForm
+                  username={username}
+                  setUsername={setUsername}
+                  password={password}
+                  setPassword={setPassword}
+                  setErrorMessage={setErrorMessage}
+                  setUser={setUser}
+                />
+              }
+            />
+          </Routes>
         ) : (
           <div>
             <Routes>

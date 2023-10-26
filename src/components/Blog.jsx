@@ -1,8 +1,8 @@
 import { useState, useEffect, useImperativeHandle, forwardRef } from 'react'
 import blogService from '../services/blogs'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-const Blog = ({ blog, blogs, setBlogs }) => {
+const Blog = ({ blog }) => {
   const queryClient = useQueryClient()
   const deleteBlogMutation = useMutation({
     mutationFn: blogService.deleteBlog,
@@ -11,10 +11,7 @@ const Blog = ({ blog, blogs, setBlogs }) => {
   const likeBlogMutation = useMutation({
     mutationFn: blogService.incLikes,
   })
-
-  const [visible, setVisible] = useState(false)
   const [user, setuser] = useState('')
-  const [Blikes, setBlikes] = useState(blog.likes)
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -37,7 +34,7 @@ const Blog = ({ blog, blogs, setBlogs }) => {
   }, [])
 
   return (
-    <div style={blogStyle} className="blog">
+    <div style={blogStyle} className="blog" key={blog.id}>
       <div className="TitleAndAuthor">
         {blog.title} {blog.author}{' '}
       </div>
