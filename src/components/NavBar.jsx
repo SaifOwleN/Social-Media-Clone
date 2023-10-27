@@ -44,6 +44,9 @@ const NavBar = ({ user, setUser }) => {
         <Link to={'/login'} className="btn shadow">
           sign in
         </Link>
+        <Link to={'/signup'} className="btn shadow">
+          sign up
+        </Link>
       </div>
     )
   }
@@ -51,7 +54,7 @@ const NavBar = ({ user, setUser }) => {
   return (
     <div className="navbar bg-black">
       <div className="flex-1 ">
-        <h2 className="text-blue-600 " style={padding}>
+        <h2 className="text-blue-600 font-inter text-2xl" style={padding}>
           blogs
         </h2>
 

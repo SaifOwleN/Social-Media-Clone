@@ -2,6 +2,8 @@ import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
 import { useParams, useNavigate } from 'react-router-dom'
 import blogService from '../services/blogs'
 import { useEffect, useState } from 'react'
+import Moment from 'react-moment'
+
 const BlogPage = ({ user }) => {
   const id = useParams().id
   const query = useQuery({ queryKey: ['blogs'] })
@@ -61,24 +63,21 @@ const BlogPage = ({ user }) => {
 
   return (
     <div>
-      <h2>{blog.title}</h2>
-      <div>
-        <a href={`${blog.url}`}>{blog.url}</a>
+      <h2 className="text-3xl m-2">Post</h2>
+      <div className="m-41">
+        <a>{userBlog}</a>
+        <br />
+        <a>{blog.content}</a>
         <br />
         {Blikes} likes <button onClick={addLike}>Like</button>
         <br />
-        {blog.user ? (
-          <>
-            Added By {userBlog} <br />
-          </>
-        ) : (
-          ''
-        )}
         {userBlog == user.name ? (
           <button onClick={deleteBlog}>delete</button>
         ) : (
           ''
         )}
+        <br />
+        <Moment date={blog.date} format="h:mm a · MMM DD, YYYY" />
         <h3>Comments</h3>
         <ul>
           {blog.comments.map((com) => (

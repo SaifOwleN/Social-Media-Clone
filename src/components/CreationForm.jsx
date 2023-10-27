@@ -1,52 +1,38 @@
 import { useState } from 'react'
-import PropTypes from 'prop-types'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import blogService from '../services/blogs'
+import TextareaAutosize from 'react-textarea-autosize'
+import moment from 'moment'
 
 const CreationForm = ({ setErrorMessage }) => {
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+  const [content, setContent] = useState('')
   const queryClient = useQueryClient()
   const addBlogMutation = useMutation({
     mutationFn: blogService.create,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['blogs'] }),
   })
+
   const handleCreation = async (e) => {
     e.preventDefault()
-    addBlogMutation.mutate({ title, author, url })
+    const date = moment().format()
 
-    setErrorMessage(`a new blog has been added: ${title}`)
+    addBlogMutation.mutate({ content, date })
+
+    setErrorMessage(`a new blog has been posted`)
     setTimeout(() => {
       setErrorMessage(null)
     }, 4000)
-    setAuthor('')
-    setTitle('')
-    setUrl('')
+    setContent('')
   }
 
   return (
-    <form onSubmit={handleCreation}>
+    <form onSubmit={handleCreation} className="w-full ">
       <h3>Create blog</h3>
-      title:{' '}
-      <input
-        className="title input input-primary"
-        value={title}
-        onChange={({ target }) => setTitle(target.value)}
-      />
-      <br />
-      author:{' '}
-      <input
-        className="author input-primary"
-        value={author}
-        onChange={({ target }) => setAuthor(target.value)}
-      />
-      <br />
-      url:{' '}
-      <input
-        className="url input-primary"
-        value={url}
-        onChange={({ target }) => setUrl(target.value)}
+      <TextareaAutosize
+        className="p-2 content input my-4 overflow-x-auto  w-full h-full"
+        placeholder="what's on your mind ?"
+        value={content}
+        onChange={({ target }) => setContent(target.value)}
       />
       <br />
       <button type="submit" className="Create btn">

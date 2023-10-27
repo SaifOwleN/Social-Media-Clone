@@ -10,17 +10,29 @@ const UserPage = () => {
   const users = query.data
 
   return (
-    <>
-      <h2>Users</h2>
-      {users?.map((user) => (
-        <div key={user.id} style={{ display: 'flex' }}>
-          <Link to={`/users/${user.id}`} style={{ paddingRight: 20 }}>
-            {user.name}
-          </Link>
-          <a>{user.blogs.length}</a>{' '}
-        </div>
-      ))}
-    </>
+    <div className="w-6/12">
+      <h2 className="m-3 text-4xl">Users</h2>
+      <table className="table text-xl">
+        <thead>
+          <tr className="text-lg">
+            <th>user</th>
+            <th>No. of blogs</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users?.map((user) => (
+            <tr key={user.id}>
+              <td>
+                <Link to={`/users/${user.id}`} style={{ paddingRight: 20 }}>
+                  {user.name}
+                </Link>
+              </td>
+              <td>{user.blogs.length}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   )
 }
 

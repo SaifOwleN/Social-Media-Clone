@@ -1,15 +1,12 @@
 import { useNavigate } from 'react-router-dom'
 import blogService from '../services/blogs'
 import loginService from '../services/login'
+import { useState } from 'react'
 
-const LoginForm = ({
-  username,
-  setUsername,
-  password,
-  setPassword,
-  setErrorMessage,
-  setUser,
-}) => {
+const LoginForm = ({ setErrorMessage, setUser }) => {
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [check, setCheck] = useState(false)
   const navigate = useNavigate()
   const handleLogin = async (e) => {
     e.preventDefault()
@@ -18,7 +15,9 @@ const LoginForm = ({
       setUser(user)
       setUsername('')
       setPassword('')
-      window.localStorage.setItem('loggedUser', JSON.stringify(user))
+      if (check) {
+        window.localStorage.setItem('loggedUser', JSON.stringify(user))
+      }
       blogService.setToken(user.Token)
       navigate('/')
     } catch (err) {
@@ -30,25 +29,36 @@ const LoginForm = ({
   }
 
   return (
-    <form onSubmit={handleLogin}>
-      username:{' '}
-      <input
-        className="input"
-        value={username}
-        type="text"
-        onChange={({ target }) => setUsername(target.value)}
-      />{' '}
-      <br />
-      password:{' '}
-      <input
-        className="input"
-        type="password"
-        value={password}
-        onChange={({ target }) => setPassword(target.value)}
-      />{' '}
-      <br />
-      <button type="submit">login</button>
-    </form>
+    <div className="flex justify-center ">
+      <form onSubmit={handleLogin} className="w-4/12">
+        username:{' '}
+        <input
+          className="input"
+          value={username}
+          type="text"
+          onChange={({ target }) => setUsername(target.value)}
+        />{' '}
+        <br />
+        password:{' '}
+        <input
+          className="input"
+          type="password"
+          value={password}
+          onChange={({ target }) => setPassword(target.value)}
+        />{' '}
+        <br />
+        <label className="cursor-pointer label">
+          <span className="label-text">Remember me</span>
+          <input
+            type="checkbox"
+            value={check}
+            onChange={() => setCheck(!check)}
+            className="toggle toggle-primary"
+          />
+        </label>{' '}
+        <button type="submit">login</button>
+      </form>
+    </div>
   )
 }
 
