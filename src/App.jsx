@@ -1,8 +1,5 @@
 import { useState, useEffect } from 'react'
-import Blog from './components/Blog'
 import blogService from './services/blogs'
-import Toggleable from './components/Toggelable'
-import CreationForm from './components/CreationForm'
 import { useQuery } from '@tanstack/react-query'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import NavBar from './components/NavBar'
@@ -26,10 +23,11 @@ const App = () => {
   }, [])
 
   const blogQ = useQuery({
-    queryKey: ['blogs'],
+    queryKey: ['blogs', user],
     queryFn: blogService.getAll,
+    enabled: !!user,
+    refetchOnWindowFocus: false,
   })
-
   if (blogQ.isLoading && user) {
     return <div>Loading...</div>
   }

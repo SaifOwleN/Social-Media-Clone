@@ -29,7 +29,7 @@ const CreationForm = ({ setErrorMessage }) => {
     <form onSubmit={handleCreation} className="w-full ">
       <h3>Create blog</h3>
       <TextareaAutosize
-        className="p-2 content input my-4 overflow-x-auto  w-full h-full"
+        className="p-2 content input input-bordered my-4 overflow-x-auto  w-full h-full"
         placeholder="what's on your mind ?"
         value={content}
         onChange={({ target }) => setContent(target.value)}

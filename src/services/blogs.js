@@ -36,7 +36,7 @@ const incLikes = async (blog) => {
 }
 
 const getUsers = (id) => {
-  const res = axios.get(`${userUrl}/${id}`).then((res) => res.data.name)
+  const res = axios.get(`${userUrl}/${id}`).then((res) => res.data)
   return res
 }
 

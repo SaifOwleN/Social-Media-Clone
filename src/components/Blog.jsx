@@ -21,12 +21,21 @@ const Blog = ({ blog }) => {
     xddMOTS()
   }, [])
 
-  return (
-    <div style={blogStyle} className="blog" key={blog.id}>
-      <div>{user}</div>
-      <div className="TitleAndAuthor">{blog.content}</div>
-    </div>
-  )
+  if (user) {
+    return (
+      <div style={blogStyle} className="blog" key={blog.id}>
+        <div className="flex items-center">
+          <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+            <div className="rounded-full w-10">
+              <img src={user.img} />
+            </div>
+          </label>
+          <a className="p-2">{user.name}</a>
+        </div>
+        <div className="content mx-4 my-2">{blog.content}</div>
+      </div>
+    )
+  }
 }
 
 export default Blog

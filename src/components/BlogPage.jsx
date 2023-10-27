@@ -6,7 +6,7 @@ import Moment from 'react-moment'
 
 const BlogPage = ({ user }) => {
   const id = useParams().id
-  const query = useQuery({ queryKey: ['blogs'] })
+  const query = useQuery({ queryKey: ['blogs', user] })
   const blog = query.data.find((n) => n.id == id)
   const [Blikes, setBlikes] = useState(blog.likes)
   const [comment, setComment] = useState()
@@ -61,39 +61,43 @@ const BlogPage = ({ user }) => {
     setComment('')
   }
 
-  return (
-    <div>
-      <h2 className="text-3xl m-2">Post</h2>
-      <div className="m-41">
-        <a>{userBlog}</a>
-        <br />
-        <a>{blog.content}</a>
-        <br />
-        {Blikes} likes <button onClick={addLike}>Like</button>
-        <br />
-        {userBlog == user.name ? (
-          <button onClick={deleteBlog}>delete</button>
-        ) : (
-          ''
-        )}
-        <br />
-        <Moment date={blog.date} format="h:mm a · MMM DD, YYYY" />
-        <h3>Comments</h3>
-        <ul>
-          {blog.comments.map((com) => (
-            <li key={Math.random() * 1000}>{com}</li>
-          ))}
-        </ul>
-        <form onSubmit={addComment}>
-          <input
-            value={comment}
-            onChange={({ target }) => setComment(target.value)}
-          ></input>
-          <button>comment</button>
-        </form>
+  if (userBlog) {
+    return (
+      <div>
+        <h2 className="text-3xl m-2">Post</h2>
+        <div className="m-41">
+          <a>{userBlog}</a>
+          <br />
+          <a>{blog.content}</a>
+          <br />
+          {Blikes} likes <button onClick={addLike}>Like</button>
+          <br />
+          {userBlog == user.name ? (
+            <>
+              <button onClick={deleteBlog}>delete</button>
+              <br />
+            </>
+          ) : (
+            ''
+          )}
+          <Moment date={blog.date} format="h:mm a · MMM DD, YYYY" />
+          <h3>Comments</h3>
+          <ul>
+            {blog.comments.map((com) => (
+              <li key={Math.random() * 1000}>{com}</li>
+            ))}
+          </ul>
+          <form onSubmit={addComment}>
+            <input
+              value={comment}
+              onChange={({ target }) => setComment(target.value)}
+            ></input>
+            <button>comment</button>
+          </form>
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
 
 export default BlogPage
