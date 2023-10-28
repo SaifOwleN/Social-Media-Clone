@@ -12,17 +12,17 @@ const Toggleable = (props) => {
   }
 
   return (
-    <div className="flex justify-center ">
+    <div className="flex justify-center mb-4">
       <div style={hideWhenVisible}>
-        <button onClick={changeVisiblity} className="btn btn-primary">
+        <button onClick={changeVisiblity} className="btn btn-primary mb-4">
           {props.buttonLabel}
         </button>
       </div>
-      <div style={showWhenVisible} className="flex justify-center  w-6/12">
+      <div style={showWhenVisible} className="w-6/12">
         {props.children}
         <button
           onClick={changeVisiblity}
-          className="btn btn-accent btn-outline w-20 "
+          className="btn btn-accent btn-outline "
         >
           cancel
         </button>

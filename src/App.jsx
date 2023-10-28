@@ -33,9 +33,16 @@ const App = () => {
   }
   const blogs = blogQ.data
 
+  const changeError = (message) => {
+    setErrorMessage(message)
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 4000)
+  }
+
   return (
     <Router>
-      <div className=" mx-7 my-4 ">
+      <div className="bg-black h-screen">
         <NavBar user={user} setUser={setUser} />
         {errorMessage ? (
           <div className="toast m-5">
@@ -78,13 +85,14 @@ const App = () => {
             <Routes>
               <Route
                 path="/"
-                element={
-                  <HomePage blogs={blogs} setErrorMessage={setErrorMessage} />
-                }
+                element={<HomePage blogs={blogs} changeError={changeError} />}
               />
               <Route path="/users" element={<UserPage />} />
-              <Route path="/users/:id" element={<User />} />
-              <Route path="/blogs/:id" element={<BlogPage user={user} />} />
+              <Route path="/users/:id" element={<User user={user} />} />
+              <Route
+                path="/blogs/:id"
+                element={<BlogPage user={user} setError={changeError} />}
+              />
             </Routes>
           </div>
         )}

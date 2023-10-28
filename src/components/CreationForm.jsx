@@ -4,7 +4,7 @@ import blogService from '../services/blogs'
 import TextareaAutosize from 'react-textarea-autosize'
 import moment from 'moment'
 
-const CreationForm = ({ setErrorMessage }) => {
+const CreationForm = ({ changeError }) => {
   const [content, setContent] = useState('')
   const queryClient = useQueryClient()
   const addBlogMutation = useMutation({
@@ -18,10 +18,8 @@ const CreationForm = ({ setErrorMessage }) => {
 
     addBlogMutation.mutate({ content, date })
 
-    setErrorMessage(`a new blog has been posted`)
-    setTimeout(() => {
-      setErrorMessage(null)
-    }, 4000)
+    changeError('a new blog has been posted')
+
     setContent('')
   }
 
@@ -29,13 +27,13 @@ const CreationForm = ({ setErrorMessage }) => {
     <form onSubmit={handleCreation} className="w-full ">
       <h3>Create blog</h3>
       <TextareaAutosize
-        className="p-2 content input input-bordered my-4 overflow-x-auto  w-full h-full"
+        className="p-3 resize-none content textarea textarea-primary  my-4  w-full h-full"
         placeholder="what's on your mind ?"
         value={content}
         onChange={({ target }) => setContent(target.value)}
       />
       <br />
-      <button type="submit" className="Create btn">
+      <button type="submit" className="Create btn btn-accent mb-2">
         Create
       </button>
     </form>

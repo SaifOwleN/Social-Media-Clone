@@ -4,7 +4,7 @@ import blogService from '../services/blogs'
 import { useEffect, useState } from 'react'
 import Moment from 'react-moment'
 
-const BlogPage = ({ user }) => {
+const BlogPage = ({ user, setError }) => {
   const id = useParams().id
   const query = useQuery({ queryKey: ['blogs', user] })
   const blog = query.data.find((n) => n.id == id)
@@ -52,6 +52,7 @@ const BlogPage = ({ user }) => {
 
   const deleteBlog = () => {
     deleteBlogMutation.mutate(blog.id)
+    setError(`a blog has been deleted`)
     navigate('/')
   }
 

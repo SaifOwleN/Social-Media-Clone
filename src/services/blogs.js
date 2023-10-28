@@ -66,6 +66,13 @@ const addComment = async ({ id, comment }) => {
     .then((res) => res.data)
 }
 
+const editUser = async (details) => {
+  const res = await axios
+    .put(`${userUrl}/${details.id}`, details)
+    .then((res) => res.data)
+  return res
+}
+
 export default {
   getAll,
   setToken,

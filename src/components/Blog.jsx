@@ -23,7 +23,7 @@ const Blog = ({ blog }) => {
 
   if (user) {
     return (
-      <div style={blogStyle} className="blog" key={blog.id}>
+      <div style={blogStyle} className="blog rounded-lg" key={blog.id}>
         <div className="flex items-center">
           <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
             <div className="rounded-full w-10">
