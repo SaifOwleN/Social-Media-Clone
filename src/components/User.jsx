@@ -2,6 +2,9 @@ import { useQuery } from '@tanstack/react-query'
 import blogService from '../services/blogs'
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import Popup from 'reactjs-popup'
+import 'reactjs-popup/dist/index.css'
+import UserEditPage from './UserEdit'
 const User = ({ user }) => {
   const id = useParams().id
   const [userP, setUserP] = useState()
@@ -32,7 +35,9 @@ const User = ({ user }) => {
         </label>
         <h2 className="flex-1 text-3xl p-4">{userP?.name}</h2>
         <div className="flex-none">
-          <a className="btn">Edit</a>
+          <Popup trigger={<a className="btn">Edit</a>} modal>
+            <UserEditPage />
+          </Popup>
         </div>
       </div>
       <div>
