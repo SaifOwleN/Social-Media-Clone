@@ -2,14 +2,35 @@ import { useQuery } from '@tanstack/react-query'
 import blogService from '../services/blogs'
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import Popup from 'reactjs-popup'
-import 'reactjs-popup/dist/index.css'
+import Modal from 'react-modal'
 import UserEditPage from './UserEdit'
+
+Modal.setAppElement('#root')
+
 const User = ({ user }) => {
   const id = useParams().id
   const [userP, setUserP] = useState()
   const [userBlogs, setUserBlogs] = useState()
   const blogs = useQuery({ queryKey: ['blogs', user] })
+  const [modal, setModal] = useState(false)
+
+  const customStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      width: '1000px',
+      background: 'rgba(50, 50, 50, 1)',
+      'border-radius': '16px',
+      border: '0px',
+    },
+    overlay: {
+      background: 'rgba(0, 0, 0, 0.5)',
+    },
+  }
 
   useEffect(() => {
     const xxdd = async () => {
@@ -20,6 +41,7 @@ const User = ({ user }) => {
     }
     xxdd()
   }, [])
+
   return (
     <>
       <div className="m-0 p-0 w-screen flex justify-center ">
@@ -35,9 +57,16 @@ const User = ({ user }) => {
         </label>
         <h2 className="flex-1 text-3xl p-4">{userP?.name}</h2>
         <div className="flex-none">
-          <Popup trigger={<a className="btn">Edit</a>} modal>
-            <UserEditPage />
-          </Popup>
+          <button className="btn" onClick={() => setModal(true)}>
+            Edit
+          </button>
+          <Modal
+            isOpen={modal}
+            onRequestClose={() => setModal(false)}
+            style={customStyles}
+          >
+            <UserEditPage setModal={setModal} />+
+          </Modal>
         </div>
       </div>
       <div>

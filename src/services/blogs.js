@@ -66,9 +66,9 @@ const addComment = async ({ id, comment }) => {
     .then((res) => res.data)
 }
 
-const editUser = async (details) => {
+const updateUser = async (details, id) => {
   const res = await axios
-    .put(`${userUrl}/${details.id}`, details)
+    .put(`${userUrl}/${id}`, details)
     .then((res) => res.data)
   return res
 }
@@ -83,4 +83,5 @@ export default {
   getAllUsers,
   User,
   addComment,
+  updateUser,
 }

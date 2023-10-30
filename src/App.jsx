@@ -13,6 +13,7 @@ import HomePage from './components/HomePage'
 const App = () => {
   const [user, setUser] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
+
   useEffect(() => {
     const loggedUser = window.localStorage.getItem('loggedUser')
     if (loggedUser) {

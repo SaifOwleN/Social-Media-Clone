@@ -30,10 +30,10 @@ const LoginForm = ({ setErrorMessage, setUser }) => {
 
   return (
     <div className="flex justify-center ">
-      <form onSubmit={handleLogin} className="w-4/12">
+      <form onSubmit={handleLogin} className="w-4/12" autoComplete="off">
         username:{' '}
         <input
-          className="input"
+          className="input login"
           value={username}
           type="text"
           onChange={({ target }) => setUsername(target.value)}
@@ -41,9 +41,11 @@ const LoginForm = ({ setErrorMessage, setUser }) => {
         <br />
         password:{' '}
         <input
-          className="input"
+          className="input login"
+          name="passwordlogin"
           type="password"
           value={password}
+          autoComplete="off"
           onChange={({ target }) => setPassword(target.value)}
         />{' '}
         <br />
