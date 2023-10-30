@@ -7,7 +7,7 @@ import UserEditPage from './UserEdit'
 
 Modal.setAppElement('#root')
 
-const User = ({ user }) => {
+const User = ({ user, changeError }) => {
   const id = useParams().id
   const [userP, setUserP] = useState()
   const [userBlogs, setUserBlogs] = useState()
@@ -65,7 +65,7 @@ const User = ({ user }) => {
             onRequestClose={() => setModal(false)}
             style={customStyles}
           >
-            <UserEditPage setModal={setModal} />+
+            <UserEditPage setModal={setModal} changeError={changeError} />
           </Modal>
         </div>
       </div>

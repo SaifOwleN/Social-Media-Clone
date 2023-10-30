@@ -89,7 +89,10 @@ const App = () => {
                 element={<HomePage blogs={blogs} changeError={changeError} />}
               />
               <Route path="/users" element={<UserPage />} />
-              <Route path="/users/:id" element={<User user={user} />} />
+              <Route
+                path="/users/:id"
+                element={<User user={user} changeError={changeError} />}
+              />
               <Route
                 path="/blogs/:id"
                 element={<BlogPage user={user} setError={changeError} />}

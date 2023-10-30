@@ -1,13 +1,12 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
 
-const UserEditPage = ({ setModal }) => {
+const UserEditPage = ({ setModal, changeError }) => {
   const [name, setName] = useState('')
   const [username, setUsername] = useState('')
   const [pass, setPass] = useState('')
   const [repeatPass, setRepeatPass] = useState('')
   const id = window.location.pathname.substr(7)
-
   const updateUser = async (e) => {
     e.preventDefault()
     if (repeatPass == pass) {
@@ -31,6 +30,7 @@ const UserEditPage = ({ setModal }) => {
         setModal(false)
       }
       exitModal()
+      changeError('You changed ur creds successfully')
     }
   }
 
@@ -84,9 +84,6 @@ const UserEditPage = ({ setModal }) => {
         <button type="submit" className="btn mt-4">
           Submit
         </button>
-      </div>
-      <div className="toast m-5">
-        <div className="alert alert-success">{message}</div>
       </div>
     </form>
   )

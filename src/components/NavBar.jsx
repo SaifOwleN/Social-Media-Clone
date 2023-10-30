@@ -16,16 +16,14 @@ const NavBar = ({ user, setUser }) => {
     setUser('')
     navigate('/login')
   }
-
   useEffect(() => {
     if (window.location.pathname == '/') {
-      setColor('   text-cyan-500')
+      setColor(' text-cyan-500')
     } else {
       setColor('')
     }
     if (window.location.pathname == '/users') {
       setUserC(' text-cyan-500')
-      console.log('sss')
     } else {
       setUserC('')
     }
@@ -37,7 +35,7 @@ const NavBar = ({ user, setUser }) => {
         <div className="dropdown dropdown-end">
           <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
             <div className="rounded-full w-10">
-              <img src="/Seif.jpg" />
+              <img src={user.img} />
             </div>
           </label>
           <ul className="pr-10 bg-base-100 menu rounded-box dropdown-content">
