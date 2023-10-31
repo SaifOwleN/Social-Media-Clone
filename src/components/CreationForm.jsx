@@ -61,17 +61,19 @@ const CreationForm = ({ changeError }) => {
             onChange={(e) => setImg(e.target.value)}
           />
           <br />
-
-          <button type="submit" className="Create btn btn-accent mb-2">
-            Create
-          </button>
+          <div className="buttons flex justify-between">
+            <button type="submit" className="Create btn btn-accent mb-2">
+              Create
+            </button>
+            <button
+              onClick={changeVisiblity}
+              className="btn btn-accent btn-outline "
+              type="reset"
+            >
+              cancel
+            </button>
+          </div>
         </form>
-        <button
-          onClick={changeVisiblity}
-          className="btn btn-accent btn-outline "
-        >
-          cancel
-        </button>
       </div>
     </div>
   )

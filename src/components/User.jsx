@@ -4,8 +4,27 @@ import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import UserEditPage from './UserEdit'
+import ChangePFP from './ChangePFP'
 
 Modal.setAppElement('#root')
+
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    width: '1000px',
+    background: 'rgba(50, 50, 50, 1)',
+    'border-radius': '16px',
+    border: '0px',
+  },
+  overlay: {
+    background: 'rgba(0, 0, 0, 0.5)',
+  },
+}
 
 const User = ({ user, changeError }) => {
   const id = useParams().id
@@ -13,24 +32,7 @@ const User = ({ user, changeError }) => {
   const [userBlogs, setUserBlogs] = useState()
   const blogs = useQuery({ queryKey: ['blogs', user] })
   const [modal, setModal] = useState(false)
-
-  const customStyles = {
-    content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-      width: '1000px',
-      background: 'rgba(50, 50, 50, 1)',
-      'border-radius': '16px',
-      border: '0px',
-    },
-    overlay: {
-      background: 'rgba(0, 0, 0, 0.5)',
-    },
-  }
+  const [pfpModal, setPFPModal] = useState(false)
 
   useEffect(() => {
     const xxdd = async () => {
@@ -50,9 +52,16 @@ const User = ({ user, changeError }) => {
       <div className="flex items-center mx-10 ">
         <label className="flex-none w-40 avatar ">
           <div className="rounded-full">
-            <button className=" ">
+            <button onClick={() => setPFPModal(true)}>
               <img src={userP?.img} />
             </button>
+            <Modal
+              isOpen={pfpModal}
+              onRequestClose={() => setPFPModal(false)}
+              style={customStyles}
+            >
+              <ChangePFP setPFPModal={setPFPModal} />
+            </Modal>
           </div>
         </label>
         <h2 className="flex-1 text-3xl p-4">{userP?.name}</h2>
