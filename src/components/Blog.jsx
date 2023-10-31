@@ -1,4 +1,4 @@
-import { useState, useEffect, useImperativeHandle, forwardRef } from 'react'
+import { useState, useEffect } from 'react'
 import blogService from '../services/blogs'
 
 const Blog = ({ blog }) => {
@@ -7,6 +7,7 @@ const Blog = ({ blog }) => {
     paddingTop: 10,
     paddingLeft: 2,
     border: 'solid',
+    'border-color': 'gray',
     borderWidth: 1,
     marginBottom: 5,
   }
@@ -24,15 +25,20 @@ const Blog = ({ blog }) => {
   if (user) {
     return (
       <div style={blogStyle} className="blog rounded-lg" key={blog.id}>
-        <div className="flex items-center">
-          <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-            <div className="rounded-full w-10">
+        <div className="flex items-center ">
+          <label tabIndex={0} className=" w-14 avatar mt-2 ml-4 ">
+            <div className="rounded-full ">
               <img src={user.img} />
             </div>
           </label>
-          <a className="p-2">{user.name}</a>
+          <a className="p-2 font-inter font-semibold">{user.name}</a>
         </div>
-        <div className="content mx-4 my-2">{blog.content}</div>
+        <div className="content mx-10 my-4">
+          <p className="pl-10">{blog.content}</p>
+          <div className="flex justify-center">
+            <img src={blog.img} className=" pt-3 " />
+          </div>
+        </div>
       </div>
     )
   }

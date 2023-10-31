@@ -9,6 +9,7 @@ import BlogPage from './components/BlogPage'
 import LoginForm from './components/LoginForm'
 import Signup from './components/SignupForm'
 import HomePage from './components/HomePage'
+import SignInHome from './components/SingInHome'
 
 const App = () => {
   const [user, setUser] = useState('')
@@ -70,6 +71,7 @@ const App = () => {
         )}
         {user === '' ? (
           <Routes>
+            <Route path="/" element={<SignInHome />} />
             <Route
               path="/login"
               element={
