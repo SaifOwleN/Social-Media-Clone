@@ -8,7 +8,7 @@ const NavBar = ({ user, setUser }) => {
 
   const navigate = useNavigate()
   const padding = {
-    paddingRight: 5,
+    paddingRight: 6,
   }
   const handleLogout = (e) => {
     e.preventDefault()
