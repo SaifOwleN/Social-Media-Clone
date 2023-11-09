@@ -65,7 +65,7 @@ const User = ({ user, changeError }) => {
 
   return (
     <>
-      <div className="m-0 p-0 w-screen flex justify-center ">
+      <div className="m-0 p-0 w-full flex justify-center ">
         <img src="/banner.webp" />
       </div>
       <div className='flex-none items-center'>
@@ -82,7 +82,7 @@ const User = ({ user, changeError }) => {
 
               <div className='flex justify-center items-center avatar'>
                 <div className='h-[450px]  rounded-full'>
-                   <img src={userP?.img} className='w-auto h-auto' />
+                   <img src={userP?.img} className='' />
                 </div>
               </div>
             </Modal>

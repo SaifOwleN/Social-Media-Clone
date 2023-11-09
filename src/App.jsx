@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import blogService from './services/blogs'
 import { useQuery } from '@tanstack/react-query'
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import NavBar from './components/NavBar'
 import UserPage from './components/UserPage'
 import User from './components/User'
@@ -44,7 +44,7 @@ const App = () => {
 
   return (
     <Router>
-      <div className="bg-black h-full">
+      <div className="">
         <NavBar user={user} setUser={setUser} />
         {errorMessage ? (
           <div className="toast m-5">

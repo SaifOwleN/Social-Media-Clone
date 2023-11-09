@@ -16,8 +16,20 @@ const Blog = ({ blog }) => {
   }
 
   const modalStyle = {
-    height: '100%',
-    width: '100%',
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      background: 'rgba(0,0,0,0)',
+      height: '80vh',
+      border: '0px',
+    },
+    overlay: {
+      background: 'rgba(0,0,0,0.5)' 
+    }
 
   }
 
@@ -45,12 +57,17 @@ const Blog = ({ blog }) => {
         <div className="content mx-10 my-4">
           <p className="pl-10">{blog.content}</p>
           <div className="flex justify-center" onClick={()=>setModal(true)}>
-            <img src={blog.img} className=" pt-3 " />
+            <button>
+              <img src={blog.img} className=" pt-3 " />
+            </button>
           </div>
           <ReactModal isOpen={modal} onRequestClose={()=>setModal(false)} style={modalStyle} >
-            <div className="flex justify-center items-center">
-              <img src={blog.img} className="" />
+            <div className='flex justify-center items-center avatar h-full'>
+              <div className='h-full'>
+                <img src={blog.img} className=" object-contain " />
+              </div>
             </div>
+
           </ReactModal>
         </div>
       </div>
