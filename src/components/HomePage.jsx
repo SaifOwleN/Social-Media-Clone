@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import Blog from './Blog'
-import Toggleable from './Toggelable'
 import CreationForm from './CreationForm'
 
 const HomePage = ({ blogs, changeError }) => {

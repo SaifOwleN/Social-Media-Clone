@@ -38,9 +38,9 @@ const NavBar = ({ user, setUser }) => {
               <img src={user.img} />
             </div>
           </label>
-          <ul className="pr-10 bg-base-100 menu rounded-box dropdown-content">
+          <ul className="bg-base-100 menu rounded-box dropdown-content">
             <li>
-              <Link to={`/users/${user.id}`}>
+              <Link to={`/users/${user.id}`} className='pr-10'>
                 {' '}
                 <button>Profile</button>
               </Link>

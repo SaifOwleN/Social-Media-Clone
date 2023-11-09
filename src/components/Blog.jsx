@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react'
 import blogService from '../services/blogs'
+import ReactModal from 'react-modal'
 
 const Blog = ({ blog }) => {
   const [user, setuser] = useState('')
+  const [modal, setModal] = useState(false)
+
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -10,6 +13,12 @@ const Blog = ({ blog }) => {
     'border-color': 'gray',
     borderWidth: 1,
     marginBottom: 5,
+  }
+
+  const modalStyle = {
+    height: '100%',
+    width: '100%',
+
   }
 
   useEffect(() => {
@@ -35,9 +44,14 @@ const Blog = ({ blog }) => {
         </div>
         <div className="content mx-10 my-4">
           <p className="pl-10">{blog.content}</p>
-          <div className="flex justify-center">
+          <div className="flex justify-center" onClick={()=>setModal(true)}>
             <img src={blog.img} className=" pt-3 " />
           </div>
+          <ReactModal isOpen={modal} onRequestClose={()=>setModal(false)} style={modalStyle} >
+            <div className="flex justify-center items-center">
+              <img src={blog.img} className="" />
+            </div>
+          </ReactModal>
         </div>
       </div>
     )

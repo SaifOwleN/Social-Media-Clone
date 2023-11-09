@@ -6,6 +6,8 @@ const UserEditPage = ({ setModal, changeError }) => {
   const [username, setUsername] = useState('')
   const [pass, setPass] = useState('')
   const [repeatPass, setRepeatPass] = useState('')
+  const [image, setImage] = useState('')
+
   const id = window.location.pathname.substr(7)
   const updateUser = async (e) => {
     e.preventDefault()
@@ -14,6 +16,7 @@ const UserEditPage = ({ setModal, changeError }) => {
         username,
         name,
         password: pass,
+        img: image
       }
       const newUser = {}
       for (var k in user) {
@@ -26,6 +29,7 @@ const UserEditPage = ({ setModal, changeError }) => {
       setUsername('')
       setPass('')
       setRepeatPass('')
+      setImage('')
       const exitModal = () => {
         setModal(false)
       }
@@ -79,6 +83,15 @@ const UserEditPage = ({ setModal, changeError }) => {
         name="repeatPass"
         type="password"
         onChange={(e) => setRepeatPass(e.target.value)}
+      />
+      <label className="label w-1/2  ">
+        <span className="label-text">Change Image</span>
+      </label>
+      <input
+        className="input input-primary w-1/2 "
+        value={image}
+        name="Image"
+        onChange={(e) => setImage(e.target.value)}
       />
       <div className="w-1/2">
         <button type="submit" className="btn mt-4">

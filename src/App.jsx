@@ -44,7 +44,7 @@ const App = () => {
 
   return (
     <Router>
-      <div className="bg-black h-screen">
+      <div className="bg-black h-full">
         <NavBar user={user} setUser={setUser} />
         {errorMessage ? (
           <div className="toast m-5">
