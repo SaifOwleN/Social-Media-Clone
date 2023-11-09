@@ -44,7 +44,7 @@ const App = () => {
 
   return (
     <Router>
-      <div className="">
+      <div className="h-screen">
         <NavBar user={user} setUser={setUser} />
         {errorMessage ? (
           <div className="toast m-5">

@@ -33,7 +33,7 @@ const LoginForm = ({ setErrorMessage, setUser }) => {
       <form onSubmit={handleLogin} className="w-4/12" autoComplete="off">
         username:{' '}
         <input
-          className="input login"
+          className="input input-primary login"
           value={username}
           type="text"
           onChange={({ target }) => setUsername(target.value)}
@@ -41,7 +41,7 @@ const LoginForm = ({ setErrorMessage, setUser }) => {
         <br />
         password:{' '}
         <input
-          className="input login"
+          className="input input-primary login"
           name="passwordlogin"
           type="password"
           value={password}

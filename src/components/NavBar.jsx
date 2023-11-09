@@ -67,7 +67,7 @@ const NavBar = ({ user, setUser }) => {
   }
 
   return (
-    <div className="navbar bg-slate-900  ">
+    <div className="navbar bg-slate-900">
       <div className="flex-1 min-h-full">
         <h2 className={` font-inter text-2xl ml-32`} style={padding}>
           Blog Website
