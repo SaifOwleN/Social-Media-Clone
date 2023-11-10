@@ -11,9 +11,9 @@ const NavBar = ({ user, setUser }) => {
     paddingRight: 6,
   }
   const handleLogout = (e) => {
-    e.preventDefault()
-    window.localStorage.clear()
-    setUser('')
+        e.preventDefault()
+       window.localStorage.clear()
+    setUser("")
     navigate('/login')
   }
   useEffect(() => {
