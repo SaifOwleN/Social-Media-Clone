@@ -5,15 +5,15 @@
 .ReactModal__Body--open {
   background: black;
 }
-.input{
+.input-primary {
   @apply border-0;
   @apply border-b;
   @apply rounded-none;
-  @apply focus:ring-8;
+  @apply focus:outline-0;
   @apply my-4;
-  @apply w-96
+  @apply w-96;
 }
 
-.navbar{
-  @apply h-[8%]
+.navbar {
+  @apply h-[8%];
 }
