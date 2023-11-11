@@ -28,8 +28,8 @@ const Signup = ({ setUser }) => {
   }, [])
 
   return (
-    <div className="flex justify-center items-center  h-[92%]">
-      <div className="bg-black p-16 rounded-xl">
+    <div className="flex justify-center items-center h-[92%]">
+      <div className="bg-black shadow-2xl p-16 rounded-xl">
         <h2 className="text-3xl font-inter pb-7">Sign Up</h2>
         <div className="flex">
           <form onSubmit={handleSignup} className="flex items-center flex-col">
