@@ -36,7 +36,6 @@ const LoginForm = ({ setErrorMessage, setUser }) => {
       blogService.setToken(user.Token)
       navigate('/')
     } else {
-      console.log('err', err)
       setErrorMessage('Wrong username or password')
       setTimeout(() => {
         setErrorMessage(null)

@@ -3,14 +3,15 @@ import blogService from '../services/blogs'
 import ReactModal from 'react-modal'
 import { AiFillLike, AiOutlineComment } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 const Blog = ({ blog }) => {
   const [user, setuser] = useState('')
   const [modal, setModal] = useState(false)
   const [like, setLike] = useState(blog.likes.length)
   const queryClient = useQueryClient()
-  const signedUser = JSON.parse(window.localStorage.getItem('loggedUser'))
+  const { data: signedUser } = useQuery({ queryKey: ['user'] })
+
   const likeBlogMutation = useMutation({
     mutationFn: blogService.incLikes,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['blogs'] }),
@@ -45,15 +46,15 @@ const Blog = ({ blog }) => {
     e.preventDefault()
     try {
       if (blog.likes.includes(signedUser.id)) {
-        const arrayLikes = blog.likes.filter((b) => b.likes == signedUser.id)
+        const arrayLikes = blog.likes.filter((b) => b.likes != signedUser.id)
         const blogToUpdate = { ...blog, likes: arrayLikes }
         likeBlogMutation.mutate(blogToUpdate)
-        setLike(like - 1)
+        setLike(arrayLikes.length)
       } else {
         const arrayLikes = blog.likes.concat(signedUser.id)
         const blogToUpdate = { ...blog, likes: arrayLikes }
         likeBlogMutation.mutate(blogToUpdate)
-        setLike(like + 1)
+        setLike(arrayLikes.length)
       }
     } catch (error) {
       console.log('error', error)
