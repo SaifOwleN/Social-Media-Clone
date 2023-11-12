@@ -39,7 +39,6 @@ const modalStyle = {
 const BlogPage = ({ user, setError }) => {
   const id = useParams().id
   const query = useQuery({ queryKey: ['blogs', user] })
-  console.log('query', user)
   const blog = query.data.find((n) => n.id == id)
   const [Blikes, setBlikes] = useState(blog.likes)
   const [comment, setComment] = useState()
@@ -83,7 +82,6 @@ const BlogPage = ({ user, setError }) => {
         likeBlogMutation.mutate(blogToUpdate)
       } else {
         const arrayLikes = blog.likes.concat(user.id)
-        console.log('arrayLikes', arrayLikes)
         const blogToUpdate = { ...blog, likes: arrayLikes }
         setBlikes(arrayLikes.length)
 
@@ -105,7 +103,7 @@ const BlogPage = ({ user, setError }) => {
     const addedComment = comment
     addCommentMutation.mutate({
       id: blog.id,
-      comment: { content: comment, id: user.id },
+      comment: { content: comment, user: user.id },
     })
     setComment('')
   }

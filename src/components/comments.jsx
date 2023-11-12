@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react'
 import BlogService from '../services/blogs'
+
 const Comments = ({ comment }) => {
   const [user, setUser] = useState('')
   useEffect(() => {
     const fetchUser = async () => {
-      const user = await BlogService.getUsers(comment.id)
-      setUser(user)
+      if (comment.user) {
+        const user = await BlogService.getUsers(comment.user)
+        setUser(user)
+      }
     }
     fetchUser()
   }, [])
