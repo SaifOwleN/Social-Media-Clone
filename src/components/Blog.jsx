@@ -9,13 +9,16 @@ const Blog = ({ blog }) => {
   const [user, setuser] = useState('')
   const [modal, setModal] = useState(false)
   const [like, setLike] = useState(blog.likes.length)
+  const userQ = useQuery({ queryKey: ['user'] })
   const queryClient = useQueryClient()
-  const { data: signedUser } = useQuery({ queryKey: ['user'] })
+  const loggedUser = JSON.parse(window.localStorage.getItem('loggedUser'))
+  const [signedUser, setSignedUser] = useState('')
 
   const likeBlogMutation = useMutation({
     mutationFn: blogService.incLikes,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['blogs'] }),
   })
+
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -44,17 +47,26 @@ const Blog = ({ blog }) => {
 
   const incLikes = (e) => {
     e.preventDefault()
+    if (userQ.data) {
+      setSignedUser(userQ.data)
+    } else {
+      setSignedUser(loggedUser)
+    }
     try {
-      if (blog.likes.includes(signedUser.id)) {
-        const arrayLikes = blog.likes.filter((b) => b.likes != signedUser.id)
-        const blogToUpdate = { ...blog, likes: arrayLikes }
-        likeBlogMutation.mutate(blogToUpdate)
-        setLike(arrayLikes.length)
-      } else {
-        const arrayLikes = blog.likes.concat(signedUser.id)
-        const blogToUpdate = { ...blog, likes: arrayLikes }
-        likeBlogMutation.mutate(blogToUpdate)
-        setLike(arrayLikes.length)
+      if (signedUser.id != null) {
+        if (blog.likes.includes(signedUser.id)) {
+          console.log('arrayLikes', arrayLikes)
+          const blogToUpdate = { ...blog, likes: arrayLikes }
+          likeBlogMutation.mutate(blogToUpdate)
+          setLike(arrayLikes.length)
+        } else {
+          console.log('blog', blog)
+          const arrayLikes = blog.likes.concat(signedUser.id)
+          console.log('signedUser.id', signedUser.id)
+          const blogToUpdate = { ...blog, likes: arrayLikes }
+          likeBlogMutation.mutate(blogToUpdate)
+          setLike(arrayLikes.length)
+        }
       }
     } catch (error) {
       console.log('error', error)
@@ -66,6 +78,7 @@ const Blog = ({ blog }) => {
       if (blog.user) {
         const xddMOTS = await blogService.getUsers(blog.user)
         setuser(xddMOTS)
+        console.log('user', user)
       }
     }
     xddMOTS()
@@ -84,7 +97,6 @@ const Blog = ({ blog }) => {
             <a className="p-2 font-inter font-semibold">{user.name}</a>
           </div>
         </Link>
-
         <div className="content mx-10 my-4">
           <p className="pl-10">{blog.content}</p>
 

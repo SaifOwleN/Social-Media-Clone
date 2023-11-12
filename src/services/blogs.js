@@ -1,6 +1,6 @@
 import axios from 'axios'
 const baseUrl = 'http://localhost:3003/api/blogs'
-const userUrl = "http://localhost:3003/api/users"
+const userUrl = 'http://localhost:3003/api/users'
 let token = ''
 
 const setToken = (desToken) => {

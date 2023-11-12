@@ -23,11 +23,10 @@ const LoginForm = ({ setErrorMessage, setUser }) => {
   })
   const handleLogin = async (e) => {
     e.preventDefault()
-    await userQ.refetch()
-    if (userQ.isSuccess) {
-      const user = userQ.data
-      setUser(userQ.data)
-      console.log('user', userQ)
+    userQ.refetch().then((res) => {
+      const user = res.data
+      setUser(user)
+      console.log('user', user)
       setUsername('')
       setPassword('')
       if (check) {
@@ -35,12 +34,7 @@ const LoginForm = ({ setErrorMessage, setUser }) => {
       }
       blogService.setToken(user.Token)
       navigate('/')
-    } else {
-      setErrorMessage('Wrong username or password')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 4000)
-    }
+    })
   }
 
   return (

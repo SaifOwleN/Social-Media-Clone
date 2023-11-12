@@ -3,14 +3,48 @@ import { useParams, useNavigate } from 'react-router-dom'
 import blogService from '../services/blogs'
 import { useEffect, useState } from 'react'
 import Moment from 'react-moment'
+import { AiOutlineComment, AiOutlineLike } from 'react-icons/ai'
+import { BiDotsHorizontalRounded } from 'react-icons/bi'
+import ReactModal from 'react-modal'
+import ReactTextareaAutosize from 'react-textarea-autosize'
+import Comments from './comments'
+
+const blogStyle = {
+  paddingTop: 10,
+  paddingLeft: 2,
+  border: 'solid',
+  'border-color': 'gray',
+  borderWidth: 1,
+  marginBottom: 5,
+  width: '34%',
+}
+
+const modalStyle = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    background: 'rgba(0,0,0,0)',
+    height: '80vh',
+    border: '0px',
+  },
+  overlay: {
+    background: 'rgba(0,0,0,0.5)',
+  },
+}
 
 const BlogPage = ({ user, setError }) => {
   const id = useParams().id
-  const query = useQuery({ queryKey: ['blogs'] })
+  const query = useQuery({ queryKey: ['blogs', user] })
+  console.log('query', user)
   const blog = query.data.find((n) => n.id == id)
   const [Blikes, setBlikes] = useState(blog.likes)
   const [comment, setComment] = useState()
   const [userBlog, setUserBlog] = useState('')
+  const [modal, setModal] = useState(false)
 
   const navigate = useNavigate()
   const queryClient = useQueryClient()
@@ -31,9 +65,7 @@ const BlogPage = ({ user, setError }) => {
   useEffect(() => {
     const user1 = async () => {
       if (blog.user) {
-        const userxdd = await blogService
-          .User(blog.user)
-          .then((res) => res.name)
+        const userxdd = await blogService.User(blog.user).then((res) => res)
         setUserBlog(userxdd)
       }
     }
@@ -41,10 +73,22 @@ const BlogPage = ({ user, setError }) => {
   }, [])
 
   const addLike = async () => {
-    const blogToUpdate = { ...blog, likes: Blikes + 1 }
     try {
-      likeBlogMutation.mutate(blogToUpdate)
-      setBlikes(Blikes + 1)
+      if (blog.likes.includes(user.id)) {
+        const arrayLikes = blog.likes.filter((b) => b != user.id)
+
+        const blogToUpdate = { ...blog, likes: arrayLikes }
+        setBlikes(arrayLikes.length)
+
+        likeBlogMutation.mutate(blogToUpdate)
+      } else {
+        const arrayLikes = blog.likes.concat(user.id)
+        console.log('arrayLikes', arrayLikes)
+        const blogToUpdate = { ...blog, likes: arrayLikes }
+        setBlikes(arrayLikes.length)
+
+        likeBlogMutation.mutate(blogToUpdate)
+      }
     } catch (error) {
       console.log('error')
     }
@@ -58,43 +102,103 @@ const BlogPage = ({ user, setError }) => {
 
   const addComment = (e) => {
     e.preventDefault()
-    addCommentMutation.mutate({ id: blog.id, comment })
+    const addedComment = comment
+    addCommentMutation.mutate({
+      id: blog.id,
+      comment: { content: comment, id: user.id },
+    })
     setComment('')
   }
 
   if (userBlog) {
     return (
-      <div>
-        <h2 className="text-3xl m-2">Post</h2>
-        <div className="m-41">
-          <a>{userBlog}</a>
-          <br />
-          <a>{blog.content}</a>
-          <br />
-          {Blikes} likes <button onClick={addLike}>Like</button>
-          <br />
-          {userBlog == user.name ? (
-            <>
-              <button onClick={deleteBlog}>delete</button>
-              <br />
-            </>
-          ) : (
-            ''
-          )}
-          <Moment date={blog.date} format="h:mm a · MMM DD, YYYY" />
-          <h3>Comments</h3>
-          <ul>
-            {blog.comments.map((com) => (
-              <li key={Math.random() * 1000}>{com}</li>
-            ))}
-          </ul>
-          <form onSubmit={addComment}>
-            <input
-              value={comment}
-              onChange={({ target }) => setComment(target.value)}
-            ></input>
-            <button>comment</button>
-          </form>
+      <div className="flex justify-center">
+        <div style={blogStyle} className="blog rounded-lg" key={blog.id}>
+          <div className="flex items-center ">
+            <label tabIndex={0} className=" flex-0 w-14 avatar mt-2 ml-4 ">
+              <div className="rounded-full ">
+                <img src={userBlog.img} />
+              </div>
+            </label>
+            <a className="p-2 font-inter font-semibold flex-1">
+              {userBlog.name}
+            </a>
+            <div className="dropdown dropdown-end">
+              <button className="flex-0 pr-6 text-2xl text-white">
+                <BiDotsHorizontalRounded />
+              </button>
+              <ul
+                tabIndex={0}
+                className="dropdown-content z-[1] menu mr-5 shadow bg-black rounded-lg w-28"
+              >
+                {userBlog.name == user.name ? (
+                  <li onClick={deleteBlog}>
+                    <a>delete</a>
+                  </li>
+                ) : (
+                  ''
+                )}
+              </ul>
+            </div>
+          </div>
+          <div className="content mx-2 my-4">
+            <p className="pl-3">{blog.content}</p>
+            <div className="flex justify-center">
+              <button onClick={() => setModal(true)} className="w-full mt-4">
+                <img src={blog.img} className="w-full px-3 rounded-2xl" />
+              </button>
+            </div>
+            <Moment
+              date={blog.date}
+              format="h:mm a · MMM DD, YYYY"
+              className="text-sm font-montserrat p-4"
+            />
+            <div className="h-[1px] w-full bg-white my-2"></div>
+
+            <div className="stats-bar flex justify-evenly text-xl ">
+              <div className="flex items-center">
+                <span className="pr-2">{blog.likes.length}</span>
+                <button onClick={addLike}>
+                  <AiOutlineLike />
+                </button>
+              </div>
+              <div className="flex items-center">
+                <span className="pr-2">{blog.comments.length}</span>
+                <button>
+                  <AiOutlineComment />
+                </button>
+              </div>
+            </div>
+            <div className="h-[1px] w-full bg-white my-2"></div>
+
+            <form onSubmit={addComment} className="flex items-center mt-4 px-2">
+              <ReactTextareaAutosize
+                value={comment}
+                onChange={({ target }) => setComment(target.value)}
+                className="textarea textarea-accent resize-none  w-full h-20 mr-2 "
+                placeholder="comment"
+              />
+              <button className="btn btn-accent">comment</button>
+            </form>
+            <div className="m-4">
+              <ul>
+                {blog.comments.map((com) => (
+                  <Comments comment={com} />
+                ))}
+              </ul>
+            </div>
+            <ReactModal
+              isOpen={modal}
+              onRequestClose={() => setModal(false)}
+              style={modalStyle}
+            >
+              <div className="flex justify-center items-center avatar h-full">
+                <div className="h-full">
+                  <img src={blog.img} className=" " />
+                </div>
+              </div>
+            </ReactModal>
+          </div>
         </div>
       </div>
     )

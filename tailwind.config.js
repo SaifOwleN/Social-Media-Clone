@@ -15,6 +15,6 @@ export default {
   },
   plugins: [require('daisyui')],
   daisyui: {
-    themes: ['light', 'dark', 'cupcake', 'halloween','synthwave'],
+    themes: ['light', 'dark', 'cupcake', 'halloween', 'synthwave'],
   },
 }

@@ -3,7 +3,7 @@ import Blog from './Blog'
 import CreationForm from './CreationForm'
 
 const HomePage = ({ blogs, changeError }) => {
-  const byLikes = (b1, b2) => b2.likes - b1.likes
+  const byLikes = (b1, b2) => b2.likes.length - b1.likes.length
 
   return (
     <div className="m-4">
@@ -13,7 +13,7 @@ const HomePage = ({ blogs, changeError }) => {
           <div className="">
             {blogs?.sort(byLikes).map((blog) => (
               <div key={blog.id}>
-                <Blog blog={blog} blogs={blogs} />
+                <Blog blog={blog} />
               </div>
             ))}
           </div>

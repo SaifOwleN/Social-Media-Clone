@@ -48,7 +48,7 @@ const User = ({ user, changeError }) => {
   const id = useParams().id
   const [userP, setUserP] = useState()
   const [userBlogs, setUserBlogs] = useState()
-  const blogs = useQuery({ queryKey: ['blogs'] })
+  const blogs = useQuery({ queryKey: ['blogs', user] })
   const [modal, setModal] = useState(false)
   const [pfpModal, setPFPModal] = useState(false)
 
