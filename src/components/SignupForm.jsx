@@ -2,12 +2,15 @@ import { useEffect, useState } from 'react'
 import blogService from '../services/blogs'
 import loginService from '../services/login'
 import { useNavigate } from 'react-router-dom'
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
 const Signup = ({ setUser }) => {
   const [name, setName] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const navigate = useNavigate()
+  const [shown, setShown] = useState(false)
+  const showPassword = shown ? 'text' : 'password'
 
+  const navigate = useNavigate()
   const handleSignup = async (e) => {
     e.preventDefault()
     const user = await loginService.signup({ username, name, password })
@@ -45,13 +48,29 @@ const Signup = ({ setUser }) => {
               placeholder="username"
               onChange={({ target }) => setUsername(target.value)}
             />
-            <input
-              className="input input-primary"
-              type="password"
-              value={password}
-              placeholder="password"
-              onChange={({ target }) => setPassword(target.value)}
-            />
+            <label className="relative block">
+              <input
+                className="input input-primary w-full "
+                name="password"
+                placeholder="Password"
+                type={showPassword}
+                value={password}
+                autoComplete="off"
+                onChange={({ target }) => setPassword(target.value)}
+              />
+              <button
+                value={shown}
+                onClick={() => setShown(!shown)}
+                type="button"
+                className="absolute inset-y-0 right-0 flex items-center pr-3"
+              >
+                {!shown ? (
+                  <AiOutlineEye className="text-lg" />
+                ) : (
+                  <AiOutlineEyeInvisible className="text-lg" />
+                )}
+              </button>
+            </label>
             <br />
             <button type="submit" className="btn btn-primary w-96">
               signup

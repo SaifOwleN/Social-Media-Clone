@@ -15,15 +15,6 @@ const App = () => {
   const [user, setUser] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
 
-  useEffect(() => {
-    const loggedUser = window.localStorage.getItem('loggedUser')
-    if (loggedUser) {
-      const user = JSON.parse(loggedUser)
-      setUser(user)
-      blogService.setToken(user.Token)
-    }
-  }, [])
-
   const blogQ = useQuery({
     queryKey: ['blogs', user],
     queryFn: blogService.getAll,

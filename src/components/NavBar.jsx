@@ -11,9 +11,9 @@ const NavBar = ({ user, setUser }) => {
     paddingRight: 6,
   }
   const handleLogout = (e) => {
-        e.preventDefault()
-       window.localStorage.clear()
-    setUser("")
+    e.preventDefault()
+    window.localStorage.clear()
+    setUser('')
     navigate('/login')
   }
   useEffect(() => {
@@ -40,7 +40,7 @@ const NavBar = ({ user, setUser }) => {
           </label>
           <ul className="bg-base-100 menu rounded-box dropdown-content">
             <li>
-              <Link to={`/users/${user.id}`} className='pr-10'>
+              <Link to={`/users/${user.id}`} className="pr-10">
                 {' '}
                 <button>Profile</button>
               </Link>

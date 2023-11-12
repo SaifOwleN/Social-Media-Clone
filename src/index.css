@@ -2,9 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.ReactModal__Body--open {
-  background: black;
-}
 .input-primary {
   @apply border-0;
   @apply border-b;

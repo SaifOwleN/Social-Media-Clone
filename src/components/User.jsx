@@ -41,14 +41,14 @@ const modalImageStyles = {
     border: '0px',
   },
   overlay: {
-    background: 'rgba(0, 0, 0, 0.5)',
+    background: 'rgba(0, 0, 0, 0.2)',
   },
 }
 const User = ({ user, changeError }) => {
   const id = useParams().id
   const [userP, setUserP] = useState()
   const [userBlogs, setUserBlogs] = useState()
-  const blogs = useQuery({ queryKey: ['blogs', user] })
+  const blogs = useQuery({ queryKey: ['blogs'] })
   const [modal, setModal] = useState(false)
   const [pfpModal, setPFPModal] = useState(false)
 
@@ -68,10 +68,13 @@ const User = ({ user, changeError }) => {
       <div className="m-0 p-0 w-full flex justify-center ">
         <img src="/banner.webp" />
       </div>
-      <div className='flex-none items-center'>
+      <div className="flex-none items-center">
         <label className="flex w-48 mx-40 -mt-20 avatar ">
           <div className="rounded-full bg-black ">
-            <button className='bg-black hover:opacity-80 transition-opacity' onClick={() => setPFPModal(true)}>
+            <button
+              className="hover:opacity-80 transition-opacity"
+              onClick={() => setPFPModal(true)}
+            >
               <img src={userP?.img} />
             </button>
             <Modal
@@ -79,16 +82,15 @@ const User = ({ user, changeError }) => {
               onRequestClose={() => setPFPModal(false)}
               style={modalImageStyles}
             >
-
-              <div className='flex justify-center items-center avatar'>
-                <div className='h-[450px]  rounded-full'>
-                   <img src={userP?.img} className='' />
+              <div className="flex justify-center items-center avatar">
+                <div className="h-[450px]  rounded-full">
+                  <img src={userP?.img} className="" />
                 </div>
               </div>
             </Modal>
           </div>
         </label>
-        </div>
+      </div>
       <div className="flex items-center mx-40 mt-4 ">
         <h2 className="flex-1 text-3xl ml-6 p-4">{userP?.name}</h2>
         <div className="flex-none">
@@ -104,12 +106,12 @@ const User = ({ user, changeError }) => {
           </Modal>
         </div>
       </div>
-      <div className='flex justify-center items-center flex-col mt-20'>
-      <div className='max-w-[800px] '>
-        {userBlogs?.map((blog) => (
-          <Blog blog={blog} />
-        ))}
-      </div>
+      <div className="flex justify-center items-center flex-col mt-20">
+        <div className="max-w-[800px] ">
+          {userBlogs?.map((blog) => (
+            <Blog blog={blog} />
+          ))}
+        </div>
       </div>
     </>
   )

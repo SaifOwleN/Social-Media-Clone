@@ -12,9 +12,9 @@ const HomePage = ({ blogs, changeError }) => {
         <div className="max-w-[800px]">
           <div className="">
             {blogs?.sort(byLikes).map((blog) => (
-              <Link to={`/blogs/${blog.id}`}>
+              <div key={blog.id}>
                 <Blog blog={blog} blogs={blogs} />
-              </Link>
+              </div>
             ))}
           </div>
         </div>

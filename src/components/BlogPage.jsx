@@ -6,7 +6,7 @@ import Moment from 'react-moment'
 
 const BlogPage = ({ user, setError }) => {
   const id = useParams().id
-  const query = useQuery({ queryKey: ['blogs', user] })
+  const query = useQuery({ queryKey: ['blogs'] })
   const blog = query.data.find((n) => n.id == id)
   const [Blikes, setBlikes] = useState(blog.likes)
   const [comment, setComment] = useState()
