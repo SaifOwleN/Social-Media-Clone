@@ -5,6 +5,9 @@ import { viteCommonjs, esbuildCommonjs } from '@originjs/vite-plugin-commonjs'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  resolve: {
+    mainFields: [],
+  },
   optimizeDeps: {
     esbuildOptions: {
       plugins: [esbuildCommonjs(['react-moment'])],
