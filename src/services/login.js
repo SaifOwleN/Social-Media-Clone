@@ -1,6 +1,12 @@
 import axios from 'axios'
-const loginURL = 'http://localhost:3003/api/login'
-const userUrl = 'http://localhost:3003/api/users'
+const loginURL =
+  process.env.NODE_ENV === 'test'
+    ? 'http://localhost:3003/api/login'
+    : 'https://blogSite-api.onrender.com/api/login'
+const userUrl =
+  process.env.NODE_ENV === 'test'
+    ? 'http://localhost:3003/api/user'
+    : 'https://blogSite-api.onrender.com/api/user'
 
 const login = async (cred) => {
   const req = await axios.post(loginURL, cred).then((re) => re.data)

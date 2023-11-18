@@ -1,6 +1,12 @@
 import axios from 'axios'
-const baseUrl = 'http://localhost:3003/api/blogs'
-const userUrl = 'http://localhost:3003/api/users'
+const baseUrl =
+  process.env.NODE_ENV === 'test'
+    ? 'http://localhost:3003/api/blogs'
+    : 'https://blogSite-api.onrender.com/api/blogs'
+const userUrl =
+  process.env.NODE_ENV === 'test'
+    ? 'http://localhost:3003/api/users'
+    : 'https://blogSite-api.onrender.com/api/user'
 let token = ''
 
 const setToken = (desToken) => {
