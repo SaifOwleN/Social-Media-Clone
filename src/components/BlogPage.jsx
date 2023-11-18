@@ -73,22 +73,23 @@ const BlogPage = ({ user, setError }) => {
 
   const addLike = async () => {
     try {
-      if (blog.likes.includes(user.id)) {
-        const arrayLikes = blog.likes.filter((b) => b != user.id)
-
+      const signedId = user?.id
+      console.log('signedId', signedId)
+      if (blog.likes.includes(signedId)) {
+        const arrayLikes = blog.likes.filter((b) => b != signedId)
         const blogToUpdate = { ...blog, likes: arrayLikes }
         setBlikes(arrayLikes.length)
-
         likeBlogMutation.mutate(blogToUpdate)
       } else {
-        const arrayLikes = blog.likes.concat(user.id)
+        console.log('signedUser.id', signedId)
+        const arrayLikes = blog.likes.concat(signedId)
         const blogToUpdate = { ...blog, likes: arrayLikes }
         setBlikes(arrayLikes.length)
 
         likeBlogMutation.mutate(blogToUpdate)
       }
     } catch (error) {
-      console.log('error')
+      console.log(error)
     }
   }
 

@@ -1,6 +1,6 @@
 import axios from 'axios'
-const baseUrl = 'https://blogSite-api.onrender.com/api/blogs'
-const userUrl = 'http://blogSite-api.onrender.com/api/users'
+const baseUrl = 'http://localhost:3003/api/blogs'
+const userUrl = 'http://localhost:3003/api/users'
 let token = ''
 
 const setToken = (desToken) => {
@@ -29,6 +29,7 @@ const incLikes = async (blog) => {
   const config = {
     headers: { Authorization: token },
   }
+  console.log(blog)
   const res = await axios
     .put(`${baseUrl}/${blog.id}`, blog, config)
     .then((res) => res.data)

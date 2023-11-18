@@ -1,6 +1,6 @@
 import axios from 'axios'
-const loginURL = 'https://blogSite-api.onrender.com/api/login'
-const userUrl = 'https://blogSite-api.onrender.com/api/users'
+const loginURL = 'http://localhost:3003/api/login'
+const userUrl = 'http://localhost:3003/api/users'
 
 const login = async (cred) => {
   const req = await axios.post(loginURL, cred).then((re) => re.data)

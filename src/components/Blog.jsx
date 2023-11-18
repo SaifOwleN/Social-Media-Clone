@@ -9,10 +9,11 @@ const Blog = ({ blog }) => {
   const [user, setuser] = useState('')
   const [modal, setModal] = useState(false)
   const [like, setLike] = useState(blog.likes.length)
+  const [first, setfirst] = useState('')
   const userQ = useQuery({ queryKey: ['user'] })
   const queryClient = useQueryClient()
   const loggedUser = JSON.parse(window.localStorage.getItem('loggedUser'))
-  const [signedUser, setSignedUser] = useState('')
+  const [signedUser, setSignedUser] = useState(loggedUser ?? userQ?.data)
 
   const likeBlogMutation = useMutation({
     mutationFn: blogService.incLikes,
@@ -45,31 +46,29 @@ const Blog = ({ blog }) => {
     },
   }
 
-  const incLikes = (e) => {
+  const incLikes = async (e) => {
     e.preventDefault()
-    if (userQ.data) {
+    if (userQ?.data) {
       setSignedUser(userQ.data)
     } else {
       setSignedUser(loggedUser)
     }
     try {
-      if (signedUser.id != null) {
-        if (blog.likes.includes(signedUser.id)) {
-          console.log('arrayLikes', arrayLikes)
-          const blogToUpdate = { ...blog, likes: arrayLikes }
-          likeBlogMutation.mutate(blogToUpdate)
-          setLike(arrayLikes.length)
-        } else {
-          console.log('blog', blog)
-          const arrayLikes = blog.likes.concat(signedUser.id)
-          console.log('signedUser.id', signedUser.id)
-          const blogToUpdate = { ...blog, likes: arrayLikes }
-          likeBlogMutation.mutate(blogToUpdate)
-          setLike(arrayLikes.length)
-        }
+      const signedId = signedUser?.id
+      if (blog?.likes.includes(signedId)) {
+        const arrayLikes = blog.likes.filter((b) => b != signedId)
+        const blogToUpdate = { ...blog, likes: arrayLikes }
+        setLike(arrayLikes.length)
+        likeBlogMutation.mutate(blogToUpdate)
+      } else {
+        const arrayLikes = blog.likes.concat(signedId)
+        const blogToUpdate = { ...blog, likes: arrayLikes }
+        setLike(arrayLikes.length)
+
+        likeBlogMutation.mutate(blogToUpdate)
       }
     } catch (error) {
-      console.log('error', error)
+      console.log(error)
     }
   }
 
@@ -78,7 +77,6 @@ const Blog = ({ blog }) => {
       if (blog.user) {
         const xddMOTS = await blogService.getUsers(blog.user)
         setuser(xddMOTS)
-        console.log('user', user)
       }
     }
     xddMOTS()
@@ -100,9 +98,13 @@ const Blog = ({ blog }) => {
         <div className="content mx-10 my-4">
           <p className="pl-10">{blog.content}</p>
 
-          <div className="flex justify-center" onClick={() => setModal(true)}>
+          <div className="flex justify-center">
             <button>
-              <img src={blog.img} className=" pt-3 " />
+              <img
+                src={blog.img}
+                className=" pt-3 "
+                onClick={() => setModal(true)}
+              />
             </button>
           </div>
           <div className="stats-bar flex justify-between mx-20 text-xl mt-4 ">
