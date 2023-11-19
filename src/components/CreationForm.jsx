@@ -36,6 +36,13 @@ const CreationForm = ({ changeError }) => {
       changeVisiblity()
     }
   }
+  const submit = (e) => {
+    if ((e.which == 13 || e.keyCode == 13) && !e.shiftKey) {
+      e.preventDefault()
+      const event = { preventDefault: () => console.log('xdd') }
+      handleCreation(event)
+    }
+  }
 
   return (
     <div className="flex justify-center mb-4">
@@ -52,6 +59,7 @@ const CreationForm = ({ changeError }) => {
             placeholder="what's on your mind ?"
             value={content}
             onChange={({ target }) => setContent(target.value)}
+            onKeyPress={submit}
           />
           <br />
           <input
@@ -59,6 +67,7 @@ const CreationForm = ({ changeError }) => {
             className="w-full input input-secondary p-3 mb-4"
             value={img}
             onChange={(e) => setImg(e.target.value)}
+            onKeyPress={submit}
           />
           <br />
           <div className="buttons flex justify-between">

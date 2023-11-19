@@ -73,23 +73,22 @@ const BlogPage = ({ user, setError }) => {
 
   const addLike = async () => {
     try {
-      const signedId = user?.id
-      console.log('signedId', signedId)
-      if (blog.likes.includes(signedId)) {
-        const arrayLikes = blog.likes.filter((b) => b != signedId)
+      if (blog.likes.includes(user.id)) {
+        const arrayLikes = blog.likes.filter((b) => b != user.id)
+
         const blogToUpdate = { ...blog, likes: arrayLikes }
         setBlikes(arrayLikes.length)
+
         likeBlogMutation.mutate(blogToUpdate)
       } else {
-        console.log('signedUser.id', signedId)
-        const arrayLikes = blog.likes.concat(signedId)
+        const arrayLikes = blog.likes.concat(user.id)
         const blogToUpdate = { ...blog, likes: arrayLikes }
         setBlikes(arrayLikes.length)
 
         likeBlogMutation.mutate(blogToUpdate)
       }
     } catch (error) {
-      console.log(error)
+      console.log('error')
     }
   }
 
@@ -108,10 +107,17 @@ const BlogPage = ({ user, setError }) => {
     })
     setComment('')
   }
+  const textAreaTweak = (e) => {
+    if ((e.keyCode == 13 || e.which == 13) && !e.shiftKey) {
+      const event = { preventDefault: () => console.log('xdd') }
+      e.preventDefault()
+      addComment(event)
+    }
+  }
 
   if (userBlog) {
     return (
-      <div className="flex justify-center">
+      <div className="flex justify-center mt-2">
         <div style={blogStyle} className="blog rounded-lg" key={blog.id}>
           <div className="flex items-center ">
             <label tabIndex={0} className=" flex-0 w-14 avatar mt-2 ml-4 ">
@@ -176,6 +182,7 @@ const BlogPage = ({ user, setError }) => {
                 onChange={({ target }) => setComment(target.value)}
                 className="textarea textarea-accent resize-none  w-full h-20 mr-2 "
                 placeholder="comment"
+                onKeyPress={textAreaTweak}
               />
               <button className="btn btn-accent">comment</button>
             </form>
