@@ -2,11 +2,11 @@ import axios from 'axios'
 const baseUrl =
   process.env.NODE_ENV === 'test'
     ? 'http://localhost:3003/api/blogs'
-    : 'https://blogSite-api.onrender.com/api/blogs'
+    : 'https://blogsite-api-uvky.onrender.com/api/blogs'
 const userUrl =
   process.env.NODE_ENV === 'test'
     ? 'http://localhost:3003/api/users'
-    : 'https://blogSite-api.onrender.com/api/user'
+    : 'https://blogsite-api-uvky.onrender.com/api/user'
 let token = ''
 
 const setToken = (desToken) => {
