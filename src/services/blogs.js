@@ -6,7 +6,7 @@ const baseUrl =
 const userUrl =
   process.env.NODE_ENV === 'test'
     ? 'http://localhost:3003/api/users'
-    : 'https://blogsite-api-uvky.onrender.com/api/user'
+    : 'https://blogsite-api-uvky.onrender.com/api/users'
 let token = ''
 
 const setToken = (desToken) => {
