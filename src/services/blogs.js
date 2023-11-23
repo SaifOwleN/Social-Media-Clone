@@ -73,6 +73,17 @@ const addComment = async ({ id, comment }) => {
     .then((res) => res.data)
 }
 
+const likeComment = async ({ id, comment }) => {
+  const config = {
+    headers: { Authorization: token },
+  }
+  return await axios.put(
+    `${baseUrl}/${id}/comments/${comment._id}`,
+    comment,
+    config,
+  )
+}
+
 const updateUser = async (details, id) => {
   const res = await axios
     .put(`${userUrl}/${id}`, details)
@@ -91,4 +102,5 @@ export default {
   User,
   addComment,
   updateUser,
+  likeComment,
 }

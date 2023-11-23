@@ -59,6 +59,7 @@ const BlogPage = ({ user, setError }) => {
   const addCommentMutation = useMutation({
     mutationFn: blogService.addComment,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['blogs'] }),
+    onError: () => console.log('error'),
   })
 
   useEffect(() => {
@@ -105,7 +106,6 @@ const BlogPage = ({ user, setError }) => {
       id: blog.id,
       comment: { content: comment, user: user.id },
     })
-    setComment('')
   }
   const textAreaTweak = (e) => {
     if ((e.keyCode == 13 || e.which == 13) && !e.shiftKey) {
@@ -189,7 +189,7 @@ const BlogPage = ({ user, setError }) => {
             <div className="m-4">
               <ul>
                 {blog.comments.map((com) => (
-                  <Comments comment={com} />
+                  <Comments comment={com} id={blog.id} />
                 ))}
               </ul>
             </div>
