@@ -76,7 +76,6 @@ const Signup = ({ setUser }) => {
               signup
             </button>
           </form>
-          <img src="Tux.svg.png" className="ml-32 h-64" />
         </div>
       </div>
     </div>

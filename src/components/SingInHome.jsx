@@ -4,7 +4,7 @@ const SignInHome = () => {
   return (
     <>
       <div className=" flex flex-col justify-end items-center h-2/5">
-        <p className="text-6xl">Social Media clone test xddMORS</p>
+        <p className="text-6xl">Social Media Clone </p>
       </div>
       <div className="flex justify-center mt-5">
         <Link to={'/login'} className="btn btn-accent mx-16 ">

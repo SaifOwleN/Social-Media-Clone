@@ -5,8 +5,8 @@ const loginURL =
     : 'https://blogsite-api-uvky.onrender.com/api/login'
 const userUrl =
   process.env.NODE_ENV === 'test'
-    ? 'http://localhost:3003/api/user'
-    : 'https://blogsite-api-uvky.onrender.com/api/user'
+    ? 'http://localhost:3003/api/users'
+    : 'https://blogsite-api-uvky.onrender.com/api/users'
 
 const login = async (cred) => {
   const req = await axios.post(loginURL, cred).then((re) => re.data)

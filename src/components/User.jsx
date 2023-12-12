@@ -51,9 +51,14 @@ const User = ({ user, changeError }) => {
   const blogs = useQuery({ queryKey: ['blogs', user] })
   const [modal, setModal] = useState(false)
   const [pfpModal, setPFPModal] = useState(false)
-
+  const [sameUser, setSameUser] = useState(false)
   useEffect(() => {
     const xxdd = async () => {
+      const localStorage = window.localStorage.getItem('loggedUser')
+      const signedUser = JSON.parse(localStorage)
+      if (signedUser.id == id) {
+        setSameUser(true)
+      }
       const xdd = await blogService.User(id)
       setUserP(xdd)
       const userBlogs = blogs.data.filter((blog) => xdd.blogs.includes(blog.id))
@@ -64,12 +69,9 @@ const User = ({ user, changeError }) => {
   }, [])
 
   return (
-    <>
-      <div className="m-0 p-0 w-full flex justify-center ">
-        <img src="/banner.webp" />
-      </div>
+    <div className="flex flex-col items-center mt-4">
       <div className="flex-none items-center">
-        <label className="flex w-48 mx-40 -mt-20 avatar ">
+        <label className="flex w-48 mx-40 avatar ">
           <div className="rounded-full bg-black ">
             <button
               className="hover:opacity-80 transition-opacity"
@@ -91,19 +93,23 @@ const User = ({ user, changeError }) => {
           </div>
         </label>
       </div>
-      <div className="flex items-center mx-40 mt-4 ">
-        <h2 className="flex-1 text-3xl ml-6 p-4">{userP?.name}</h2>
+      <div className="flex items-center justify-between w-72 mt-6 ">
+        <h2 className="flex-1 text-3xl p-4">{userP?.name}</h2>
         <div className="flex-none">
-          <button className="btn" onClick={() => setModal(true)}>
-            Edit
-          </button>
-          <Modal
-            isOpen={modal}
-            onRequestClose={() => setModal(false)}
-            style={customStyles}
-          >
-            <UserEditPage setModal={setModal} changeError={changeError} />
-          </Modal>
+          {sameUser ? (
+            <>
+              <button className="btn" onClick={() => setModal(true)}>
+                Edit
+              </button>
+              <Modal
+                isOpen={modal}
+                onRequestClose={() => setModal(false)}
+                style={customStyles}
+              >
+                <UserEditPage setModal={setModal} changeError={changeError} />
+              </Modal>
+            </>
+          ) : null}
         </div>
       </div>
       <div className="flex justify-center items-center flex-col mt-20">
@@ -113,7 +119,7 @@ const User = ({ user, changeError }) => {
           ))}
         </div>
       </div>
-    </>
+    </div>
   )
 }
 

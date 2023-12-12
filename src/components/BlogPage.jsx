@@ -106,6 +106,7 @@ const BlogPage = ({ user, setError }) => {
       id: blog.id,
       comment: { content: comment, user: user.id },
     })
+    setComment('')
   }
   const textAreaTweak = (e) => {
     if ((e.keyCode == 13 || e.which == 13) && !e.shiftKey) {

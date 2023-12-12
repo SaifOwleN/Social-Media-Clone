@@ -84,7 +84,7 @@ const Blog = ({ blog }) => {
 
   if (user) {
     return (
-      <div style={blogStyle} className="blog rounded-lg" key={blog.id}>
+      <div style={blogStyle} className="blog rounded-lg min-w-96" key={blog.id}>
         <Link to={`/blogs/${blog.id}`}>
           <div className="flex items-center ">
             <label tabIndex={0} className=" w-14 avatar mt-2 ml-4 ">
