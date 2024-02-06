@@ -4,15 +4,16 @@ import ReactModal from 'react-modal'
 import { AiFillLike, AiOutlineComment } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { getUser } from '../util'
 
 const Blog = ({ blog }) => {
   const [user, setuser] = useState('')
   const [modal, setModal] = useState(false)
   const [like, setLike] = useState(blog.likes.length)
+  const loggedUser = getUser()
   const [first, setfirst] = useState('')
   const userQ = useQuery({ queryKey: ['user'] })
   const queryClient = useQueryClient()
-  const loggedUser = JSON.parse(window.localStorage.getItem('loggedUser'))
   const [signedUser, setSignedUser] = useState(loggedUser ?? userQ?.data)
 
   const likeBlogMutation = useMutation({
@@ -107,7 +108,7 @@ const Blog = ({ blog }) => {
               />
             </button>
           </div>
-          <div className="stats-bar flex justify-between mx-20 text-xl mt-4 ">
+          <div className="stats-bar flex justify-around text-xl mt-4 ">
             <div className="flex items-center ">
               <span className="pr-2">{like}</span>
               <button onClick={incLikes}>
@@ -120,7 +121,6 @@ const Blog = ({ blog }) => {
                 <AiOutlineComment />
               </button>
             </div>
-            <div></div>
           </div>
           <ReactModal
             isOpen={modal}

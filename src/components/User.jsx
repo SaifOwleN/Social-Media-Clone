@@ -6,6 +6,7 @@ import Modal from 'react-modal'
 import UserEditPage from './UserEdit'
 import ChangePFP from './ChangePFP'
 import Blog from './Blog'
+import { getUser } from '../util'
 
 Modal.setAppElement('#root')
 
@@ -54,8 +55,7 @@ const User = ({ user, changeError }) => {
   const [sameUser, setSameUser] = useState(false)
   useEffect(() => {
     const xxdd = async () => {
-      const localStorage = window.localStorage.getItem('loggedUser')
-      const signedUser = JSON.parse(localStorage)
+      const signedUser = getUser()
       if (signedUser.id == id) {
         setSameUser(true)
       }
@@ -113,7 +113,7 @@ const User = ({ user, changeError }) => {
         </div>
       </div>
       <div className="flex justify-center items-center flex-col mt-20">
-        <div className="max-w-[800px] ">
+        <div className="min-w-[500px] ">
           {userBlogs?.map((blog) => (
             <Blog blog={blog} />
           ))}

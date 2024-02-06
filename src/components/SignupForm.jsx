@@ -3,6 +3,7 @@ import blogService from '../services/blogs'
 import loginService from '../services/login'
 import { useNavigate } from 'react-router-dom'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
+import { getUser } from '../util'
 const Signup = ({ setUser }) => {
   const [name, setName] = useState('')
   const [username, setUsername] = useState('')
@@ -24,7 +25,7 @@ const Signup = ({ setUser }) => {
   }
 
   useEffect(() => {
-    const loggedUser = window.localStorage.getItem('loggedUser')
+    const loggedUser = getUser()
     if (loggedUser) {
       navigate('/')
     }

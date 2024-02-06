@@ -48,15 +48,15 @@ const CreationForm = ({ changeError }) => {
     <div className="flex justify-center mb-4">
       <div style={hideWhenVisible}>
         <button onClick={changeVisiblity} className="btn btn-primary mb-4">
-          xdd
+          Post
         </button>
       </div>
       <div style={showWhenVisible} className="w-5/12">
         <form onSubmit={handleCreation} className="w-full ">
           <h3>Create blog</h3>
           <TextareaAutosize
-            className="p-3 resize-none content textarea textarea-primary  my-4  w-full h-full"
-            placeholder="what's on your mind ?"
+            className="p-3 px-5 resize-none content textarea textarea-primary my-4 w-full h-full text-base"
+            placeholder="what's on your mind?"
             value={content}
             onChange={({ target }) => setContent(target.value)}
             onKeyPress={submit}
@@ -64,7 +64,7 @@ const CreationForm = ({ changeError }) => {
           <br />
           <input
             placeholder="Add Image"
-            className="w-full input input-secondary p-3 mb-4"
+            className="w-full input input-secondary p-3 px-5 text-base mb-4"
             value={img}
             onChange={(e) => setImg(e.target.value)}
             onKeyPress={submit}

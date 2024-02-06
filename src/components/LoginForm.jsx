@@ -29,7 +29,10 @@ const LoginForm = ({ setErrorMessage, setUser }) => {
       console.log('user', user)
       setUsername('')
       setPassword('')
-      window.localStorage.setItem('loggedUser', JSON.stringify(user))
+
+      check
+        ? window.localStorage.setItem('loggedUser', JSON.stringify(user))
+        : window.sessionStorage.setItem('loggedUser', JSON.stringify(user))
       blogService.setToken(user.Token)
       navigate('/')
     })

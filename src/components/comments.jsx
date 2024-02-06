@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react'
 import BlogService from '../services/blogs'
 import { AiOutlineLike } from 'react-icons/ai'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { getUser } from '../util'
 const Comments = ({ comment, id }) => {
   const [user, setUser] = useState('')
-  const loggedUser = JSON.parse(window.localStorage.getItem('loggedUser'))
+  const loggedUser = getUser()
   useEffect(() => {
     const fetchUser = async () => {
       if (comment.user) {

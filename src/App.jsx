@@ -10,15 +10,16 @@ import LoginForm from './components/LoginForm'
 import Signup from './components/SignupForm'
 import HomePage from './components/HomePage'
 import SignInHome from './components/SingInHome'
+import { getUser } from './util'
 
 const App = () => {
   const [user, setUser] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(() => {
-    const loggedUser = window.localStorage.getItem('loggedUser')
+    const loggedUser = getUser()
     if (loggedUser) {
-      const user = JSON.parse(loggedUser)
+      const user = loggedUser
       setUser(user)
       blogService.setToken(user.Token)
     }

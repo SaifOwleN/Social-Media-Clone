@@ -129,23 +129,23 @@ const BlogPage = ({ user, setError }) => {
             <a className="p-2 font-inter font-semibold flex-1">
               {userBlog.name}
             </a>
-            <div className="dropdown dropdown-end">
-              <button className="flex-0 pr-6 text-2xl text-white">
-                <BiDotsHorizontalRounded />
-              </button>
-              <ul
-                tabIndex={0}
-                className="dropdown-content z-[1] menu mr-5 shadow bg-black rounded-lg w-28"
-              >
-                {userBlog.name == user.name ? (
+            {userBlog.name == user.name ? (
+              <div className="dropdown dropdown-end">
+                <button className="flex-0 pr-6 text-2xl text-white">
+                  <BiDotsHorizontalRounded />
+                </button>
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content z-[1] menu mr-5 shadow bg-black rounded-lg w-28"
+                >
                   <li onClick={deleteBlog}>
                     <a>delete</a>
-                  </li>
-                ) : (
-                  ''
-                )}
-              </ul>
-            </div>
+                  </li>{' '}
+                </ul>
+              </div>
+            ) : (
+              ''
+            )}
           </div>
           <div className="content mx-2 my-4">
             <p className="pl-3">{blog.content}</p>

@@ -13,6 +13,7 @@ const NavBar = ({ user, setUser }) => {
   const handleLogout = (e) => {
     e.preventDefault()
     window.localStorage.clear()
+    window.sessionStorage.clear()
     setUser('')
     navigate('/login')
   }
